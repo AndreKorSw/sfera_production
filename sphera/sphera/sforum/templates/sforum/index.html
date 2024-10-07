@@ -1,0 +1,360 @@
+
+{% extends "sforum/base.html" %}
+{% load sforum_tags %}
+
+{% load static %}
+
+{% block content %}
+<main class="main">
+		<section class = "big-banner">
+			<div class="container">
+				<div class="main__container">
+					<div class="promo__block">
+
+						<div class="big-banner__block">
+							{% for video_banner in banners_video %}
+
+
+								<video  autoplay muted loop src="{{ video_banner.video.url }}" alt="" class="big-banner__pic"></video>
+								<div class="video__info">
+									<div class="video__info-container">SFERA</div>
+									<ul class="icons-list-banner">
+										<li class="icons__item-banner purple_bc"><a href="https://instagram.com/sfera_msk?igshid=MmIzYWVlNDQ5Yg==" class="icons__link-banner white_c">INST</a></li>
+										<li class="icons__item-banner purple_bc"><a href="https://www.youtube.com/@sferamsk4063" class="icons__link-banner white_c">YT</a></li>
+										<li class="icons__item-banner purple_bc"><a href="https://m.vk.com/club222120976" class="icons__link-banner white_c">VK</a></li>
+										<li class="icons__item-banner purple_bc"><a href="https://t.me/sfera_ms" class="icons__link-banner white_c">TG</a></li>
+										{% if request.user|has_group:"Админ" %}
+										<li class="icons__item-banner purple_bc"><a href="{% url 'delete_banner_video' video_banner.id %}" class="icons__link-banner white_c">DEL</a></li>
+										<li class="icons__item-banner purple_bc"><a href="" class="icons__link-banner white_c">UPD</a></li>
+										{% endif %}
+									</ul>
+								</div>
+
+
+
+
+							{% endfor %}
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="soc_banner">
+			<div class="soc-container">
+				<div class="main__container">
+					<div class="small-banner__block">
+						<ul class="action__menu">
+							<li class="action__item purple_bcc"><a  class="action__link-white white_cc" href="">ПОДПИСЫВАЙСЯ НА НАШ ТЕЛЕГРАММ</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</section>
+		<section class = "small-banner">
+			<div class="container">
+				<div class="main__container">
+					<div class="small-banner__block">
+						{% for photo_banner in banners_photo %}
+							<a href=""><img src = "{{ photo_banner.img.url }}" class = "small-banner__pic"></a>
+
+						{% if request.user|has_group:"Админ" %}
+							<ul class="action__menu">
+								<li class="action__item purple_bc"><a class="action__link white_c" href="{% url 'delete_banner_photo' photo_banner.id %}">УДАЛИТЬ</a></li>
+								<li class="action__item purple_bc"><a  class="action__link white_c" href="">РЕДАКТИРОВАТЬ</a></li>
+							</ul>
+						{% endif %}
+						{% endfor %}
+
+					</div>
+
+
+				</div>
+			</div>
+		</section>
+		<section class="events">
+			<div class="container">
+				<div class="main__container">
+					<div class="page__venues-block">
+						<h3 class="page__venues-title"><a href="{% url 'home' %}" class="page__venues_link">EVENTS IN MSK</a></h3>
+						<img class="watch_more-img" src="{% static 'sforum/images/img/icon-arrow-black.svg' %}">
+
+						
+					</div>
+
+<!--					<ul class="action__menu">-->
+
+<!--                        <li class="action__item-black black_bc"><a  class="action__link-black white_c" href="">FOR LIFE</a></li>-->
+<!--                        <li class="action__item-black black_bc"><a class="action__link-black white_c" href="">FIRE FUN</a></li>-->
+
+<!--                    </ul>-->
+					<ul class="big-banner__menu">
+							{% for n in reviews %}
+							<li class="big-banner__menu-item">
+								<div class="big-banner__menu-photo"><img width = '120px' height="80px" src="{{ n.photo.url }}" alt="" class="big-banner__menu-pic"></div>
+								<div class="big-banner__menu-data">
+									<div class="big-banner__menu-time">{{ n.time_created }}</div>
+									<div class="big-banner__menu-title">{{ n.title }}</div>
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+					<div class="watch__all"><a href="" class="watch__all-link">посмотреть все</a></div>
+
+				</div>
+			</div>
+
+		</section>
+		<section class="map1">
+			<div class="container">
+				<div class="main__container">
+
+					<div class="page__venues-block">
+						<h3 class="page__venues-title"><a href="{% url 'home' %}" class="page__venues_link">НА КАРТЕ</a></h3>
+						<img class="watch_more-img" src="{% static 'sforum/images/img/icon-arrow.svg' %}">
+					</div>
+					<div class="map__container">
+						<div class="map__search">
+							<form class="search_form" id = "search_form" method="POST" action="{% url 'search-venues' %}">
+								{% csrf_token %}
+								<input class="map__search-input" type="search" placeholder="Поиск заведений" name="searched">
+
+							</form>
+							<button  class="map__search-icon" type="submit" form="search_form">НАЙТИ</button>
+
+						</div>
+						<div class="map__block">
+							<div class="map" id="map"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class = "places">
+				<div class="container">
+					<div class="main__container">
+						<div class="page__venues-block">
+								<h3 class="page__venues-title"><a href="{% url 'show_venues' %}" class="page__venues_link">ЗАВЕДЕНИЯ</a></h3>
+							<img class="watch_more-img" src="{% static 'sforum/images/img/icon-arrow.svg' %}">
+						</div>
+						<div class="news__container">
+
+
+					{% for n in posts %}
+					<div class="new">
+<!--						{% if n.company_name.profile.id %}-->
+<!--						<div class="new__author">-->
+<!--							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">-->
+<!--							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username|truncatechars:35 }}</a>-->
+<!--						{% endif %}-->
+
+<!--						</div>-->
+						{% if n.photo %}
+						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>
+						{% endif %}
+						<div class="new__info-container">
+							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>
+							<div class="metro__block">м. {{ n.metro }}</div>
+<!--							<div class="address__block">{{ n.address }}</div>-->
+							<span class="new__category">{{ n.cat }}</span>
+
+
+<!--							<div class="new__data">-->
+<!--								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>-->
+<!--							</div>-->
+						</div>
+<!--						<ul class="action__menu">-->
+<!--							{% if user.id == n.company_name.id %}-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>-->
+<!--							{% endif %}-->
+<!--						</ul>-->
+					</div>
+					{% endfor %}
+				</div>
+						<div class="watch__all"><a href="" class="watch__all-link">посмотреть все</a></div>
+					</div>
+				</div>
+		</section>
+		<section class="news" style="background-image: url('');">
+			<div class="container">
+				<div class="main__container">
+					<div class="page__venues-block">
+						<h3 class="page__venues-title"><a href="{% url 'show_news' %}" class="page__venues_link">НОВОСТИ И ОБЗОРЫ</a></h3>
+						<img class="watch_more-img" src="{% static 'sforum/images/img/icon-arrow.svg' %}">
+					</div>
+
+					<div class="news__container">
+						{% for n in news %}
+						<div class="new">
+						{% if n.company_name.profile.id %}
+						<div class="new__author">
+							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">
+							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username }}</a>
+						{% endif %}
+
+						</div>
+						{% if n.photo %}
+						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>
+						{% endif %}
+						<div class="new__info-container">
+							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>
+<!--							<div class="address__block">{{ n.address }}</div>-->
+
+
+
+<!--							<div class="new__data">-->
+<!--								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>-->
+<!--							</div>-->
+						</div>
+<!--						<ul class="action__menu">-->
+<!--							{% if user.id == n.company_name.id %}-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>-->
+<!--							{% endif %}-->
+<!--						</ul>-->
+					</div>
+<!--							<ul class="action__menu">-->
+<!--								{% if user.id == n.company_name.id %}-->
+<!--								<li class="action__item purple_bc"><a href="{% url 'update_new' n.slug %}" class="action__link white_c">Редактировать</a></li>-->
+<!--								<li class="action__item purple_bc"><a href="{% url 'delete_new' n.slug %}" class="action__link white_c">Удалить</a></li>-->
+<!--								{% endif %}-->
+<!--							</ul>-->
+
+					{% endfor %}
+				</div>
+					<div class="watch__all"><a href="" class="watch__all-link">посмотреть все</a></div>
+				</div>
+			</div>
+			</section>
+			<section class = "activities">
+				<div class="container">
+					<div class="main__container">
+						<div class="page__venues-block">
+							<h3 class="page__venues-title"><a href="{% url 'home' %}" class="page__venues_link">ПОСЛЕДНИЕ КОММЕНТАРИИ</a></h3>
+							<img class="watch_more-img" src="{% static 'sforum/images/img/icon-arrow.svg' %}">
+						</div>
+						<div class="comments__container">
+					<div class="article__comments-block">
+						<div class="comments__body">
+							{% for comment in comments %}
+								{% if comment.comment_author.id == user.id %}
+									{% if comment.comment_author.profile.profile_pic %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<div class="comment__data">
+										<span class="comment__date">{{ comment.date_added }}</span>
+										<a href="{% url 'delete_comment' comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+									</div>
+								</div>
+									{% else %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'sforum/images/img/img_28.png' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<div class="comment__data">
+										<span class="comment__date">{{ comment.date_added }}</span>
+										<a href="{% url 'delete_comment' comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+									</div>
+								</div>
+									{% endif %}
+								{% else %}
+									{% if comment.comment_author.profile.profile_pic %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<span class="comment__date">{{ comment.date_added }}</span>
+								</div>
+									{% else %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'xforum/images/img/user profile image.jpg' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<span class="comment__date">{{ comment.date_added }}</span>
+								</div>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+							{% for news_comment in news_comments %}
+								{% if news_comment.comment_author.id == user.id %}
+									{% if news_comment.comment_author.profile.profile_pic %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+
+									</div>
+									<div class="comment__content">{{ news_comment.body }}</div>
+									<div class="comment__data">
+										<span class="comment__date">{{ news_comment.date_added }}</span>
+										<a href="{% url 'delete_comment' news_comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+									</div>
+								</div>
+									{% else %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'sforum/images/img/img_28.png' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ news_comment.comment_author.username }}</span>
+
+									</div>
+									<div class="comment__content">{{ news_comment.body }}</div>
+									<div class="comment__data">
+										<span class="comment__date">{{ news_comment.date_added }}</span>
+										<a href="{% url 'delete_news_comment' news_comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+
+									</div>
+								</div>
+									{% endif %}
+								{% else %}
+									{% if news_comment.comment_author.profile.profile_pic %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ news_comment.comment_author.username }}</span>
+									</div>
+									<div class="comment__content">{{ news_comment.body }}</div>
+									<span class="comment__date">{{ news_comment.date_added }}</span>
+								</div>
+									{% else %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'xforum/images/img/user profile image.jpg' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ news_comment.comment_author.username }}</span>
+									</div>
+									<div class="comment__content">{{ news_comment.body }}</div>
+									<span class="comment__date">{{ news_comment.date_added }}</span>
+								</div>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+
+						</div>
+					</div>
+
+
+
+						</div>
+				</div>
+					</div>
+				</div>
+		</section>
+<!--		<section class="photo__gallery">-->
+<!--			<div class="container">-->
+<!--				<div class="main__container">-->
+<!--					<div class="page__venues-block">-->
+<!--						<h3 class="page__venues-title"><a href="{% url 'show_venues' %}" class="page__venues_link">ФОТОГАЛЕРЕЯ</a></h3>-->
+<!--						<img class="watch_more-img" src="{% static 'sforum/images/img/icon-arrow.svg' %}">-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</section>-->
+		</div>
+	</div>
+</main>
+{% endblock %}

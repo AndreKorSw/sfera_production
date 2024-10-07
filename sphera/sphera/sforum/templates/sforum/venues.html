@@ -1,0 +1,90 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% load sforum_tags %}
+
+{% block content %}
+<main class="main">
+	<div class="container">
+		<h3 class="page__venues-title"><a href="{% url 'home' %}" class="page__venues_link">ЗАВЕДЕНИЯ</a></h3>
+
+
+		<section class="categories">
+			<div class="category__menu">
+				<ul class="category__list">
+					<li class="category__item purple_box_shadow"><a href="{% url 'show_venues' %}" class="category__link">ВСЕ</a></li>
+
+					{% for c in cats %}
+						{% if cat_selected == c.slug %}
+							<li class="category__item">{{ c.name }}</li>
+						{% else %}
+							<li class="category__item purple_box_shadow"><a href="{{ c.get_absolute_url }}" class="category__link">{{ c.name }}</a></li>
+						{% endif %}
+					{% endfor %}
+
+				</ul>
+				<form action="" method="get" id="sortProductById">
+					<input type="hidden" name="orderby" value="id" />
+				</form>
+				<form action="" method="get" id="sortProductByDate">
+					<input type="hidden" name="orderby" value="-time_created" />
+				</form>
+				<form action="" method="get" id="sortProductByDate2">
+					<input type="hidden" name="orderby" value="time_created" />
+				</form>
+				<form action="" method="get" id="sortProductByMetro">
+					<input type="hidden" name="orderby" value="metro" />
+				</form>
+
+				<ul class="filter__sublist">
+					<li class="category__item-filter purple_box_shadow"><a class="category__link-filter" href="#" title="Сброс сортировки" onclick="document.getElementById('sortProductById').submit();">Сброс</a></li>
+					<li class="category__item-filter purple_box_shadow"><a  class="category__link-filter" href="#" title="Сброс сортировки" onclick="document.getElementById('sortProductByDate').submit();">Новые</a></li>
+					<li class="category__item-filter purple_box_shadow"><a class="category__link-filter" href="#" title="Сброс сортировки" onclick="document.getElementById('sortProductByDate2').submit();">Старые</a></li>
+					<li class="category__item-filter purple_box_shadow"><a class="category__link-filter" href="#" title="Сброс сортировки" onclick="document.getElementById('sortProductByMetro').submit();">Метро</a></li>
+				</ul>
+
+
+			</div>
+		</section>
+
+        <section class="news">
+
+				<div class="news__container">
+
+
+					{% for n in posts %}
+					<div class="new">
+						{% if n.company_name.profile.id %}
+<!--						<div class="new__author">-->
+<!--							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">-->
+<!--							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username|truncatechars:35 }}</a>-->
+<!--						{% endif %}-->
+
+<!--						</div>-->
+						{% if n.photo %}
+						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>
+						{% endif %}
+						<div class="new__info-container">
+							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title|truncatechars:40 }}</a></div>
+							<div class="metro__block">м. {{ n.metro }}</div>
+<!--							<div class="address__block">{{ n.address }}</div>-->
+							<span class="new__category">{{ n.cat }}</span>
+
+
+<!--							<div class="new__data">-->
+<!--								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>-->
+<!--							</div>-->
+						</div>
+<!--						<ul class="action__menu">-->
+<!--							{% if user.id == n.company_name.id %}-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>-->
+<!--							{% endif %}-->
+<!--						</ul>-->
+					</div>
+					{% endfor %}
+				</div>
+			</section>
+    </div>
+</main>
+
+{% endblock %}

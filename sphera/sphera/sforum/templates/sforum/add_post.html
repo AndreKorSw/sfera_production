@@ -1,0 +1,30 @@
+{% extends "sforum/base.html" %}
+
+
+{% block form2 %}
+{% endblock form2 %}
+{% block content %}
+<main class="main">
+	<div class="container">
+        <div class="form__base_container">
+        <form class="form__base" action="{% url 'add_post' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>{{ form.non_field_errors }}</div>
+            <h2 class="form__title">Добавить заведение</h2>
+            {% for f in form %}
+            <div class="base_label">
+                <label class="form__label" for="{{ f.id_for_label }}">{{ f.label }}</label>
+                <div class="form__input">{{ f }}</div>
+                <div>{{ f.errors }}</div>
+            </div>
+            {% endfor %}
+            {% if user.profile.id %}
+            <button class="form__button" type="submit"><span class="form__button-link">Добавить</span></button>
+            {% else %}
+            <div class="form__button"><a  href="{% url 'create_profile' %}" class="form__button-link">Добавить</a></div>
+            {% endif %}
+        </form>
+      </div>
+    </div>
+</main>
+{% endblock %}

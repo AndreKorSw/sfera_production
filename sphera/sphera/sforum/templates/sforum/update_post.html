@@ -1,0 +1,27 @@
+{% extends "sforum/base.html" %}
+
+
+{% block form2 %}
+{% endblock form2 %}
+{% block content %}
+<main class="main">
+	<div class="container">
+        <div class="form__base_container">
+            <form class="form__base"  method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>{{ form.non_field_errors }}</div>
+                <h2 class="form__title">Карточка заведения</h2>
+                {% for f in form %}
+                <div class="base_label">
+                    <label class="form__label" for="{{ f.id_for_label }}">{{ f.label }}</label>
+                    <div class="form__input">{{ f }}</div>
+                    <div>{{ f.errors }}</div>
+                </div>
+                {% endfor %}
+                <button class="form__button" type="submit"><span class="form__button-link">Изменить</span></button>
+            </form>
+        </div>
+
+    </div>
+</main>
+{% endblock %}

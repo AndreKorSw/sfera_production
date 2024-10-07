@@ -1,0 +1,38 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% load sforum_tags %}
+
+{% block content %}
+<main class="main">
+
+<section class="events">
+			<div class="container">
+				<div class="main__container">
+					<h3 class="page__venues-title"><a href="{% url 'home' %}" class="page__venues_link">EVENTS IN MSK</a></h3>
+
+
+
+
+<!--					<ul class="action__menu">-->
+
+<!--                        <li class="action__item-black black_bc"><a  class="action__link-black white_c" href="">FOR LIFE</a></li>-->
+<!--                        <li class="action__item-black black_bc"><a class="action__link-black white_c" href="">FIRE FUN</a></li>-->
+
+<!--                    </ul>-->
+					<ul class="big-banner__menu">
+							{% for n in reviews %}
+							<li class="big-banner__menu-item">
+								<div class="big-banner__menu-photo"><img width = '120px' height="80px" src="{{ n.photo.url }}" alt="" class="big-banner__menu-pic"></div>
+								<div class="big-banner__menu-data">
+									<div class="big-banner__menu-time">{{ n.time_created }}</div>
+									<div class="big-banner__menu-title">{{ n.title }}</div>
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+				</div>
+			</div>
+
+		</section>
+</main>
+{% endblock %}

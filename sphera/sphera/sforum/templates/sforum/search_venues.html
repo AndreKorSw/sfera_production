@@ -1,0 +1,51 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% block content %}
+<main class="main">
+	<div class="container">
+        {% if searched %}
+            <h2 class="webpage__title"> Вы искали <span class="purple_c">{{ searched }}</span> </h2>
+			<section class="news">
+			<div class="news__container">
+				{% for n in venues %}
+				<div class="new">
+						{% if n.company_name.profile.id %}
+<!--						<div class="new__author">-->
+<!--							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">-->
+<!--							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username|truncatechars:35 }}</a>-->
+<!--						{% endif %}-->
+
+<!--						</div>-->
+						{% if n.photo %}
+						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>
+						{% endif %}
+						<div class="new__info-container">
+							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title|truncatechars:40 }}</a></div>
+							<div class="metro__block">м. {{ n.metro }}</div>
+<!--							<div class="address__block">{{ n.address }}</div>-->
+							<span class="new__category">{{ n.cat }}</span>
+
+
+<!--							<div class="new__data">-->
+<!--								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>-->
+<!--							</div>-->
+						</div>
+<!--						<ul class="action__menu">-->
+<!--							{% if user.id == n.company_name.id %}-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>-->
+<!--							{% endif %}-->
+<!--						</ul>-->
+					</div>
+				{% endfor %}
+			</div>
+		</section>
+        {% else %}
+            <h2 class="webpage__title">По вашему запросу ничего не найдено :(</h2>
+<!--            <div class="results_searched">-->
+<!--                <p>No search results</p>-->
+<!--            </div>-->
+        {% endif %}
+        </div>
+</main>
+{% endblock %}

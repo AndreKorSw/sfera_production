@@ -1,0 +1,130 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% block form2 %}
+{% endblock form2 %}
+{% block content %}
+<main class="main">
+	<div class="container">
+        <div class="post__base_container">
+			<div class="post__card">
+				{% if post.company_name.profile.id %}
+				<div class="new__author">
+					<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">
+					<a href="{% url 'profile' post.company_name.profile.id %}" class="new__author-link">{{ post.company_name.username }}</a>
+				{% endif %}
+				</div>
+				{% if post.photo %}
+				<div class="new__photo"><a href="" class="new__photo-link"><img src="{{ post.photo.url }}" alt=""  class="new__photo-pic-detail"></a></div>
+				{% endif %}
+				<div class="new__info-container">
+					<div class="new__title"><span>{{ post.title }}</span></div>
+					<div class="new__content2">
+						{{ post.content }}
+					</div>
+					<div class="new__subcontent">
+						{{ post.phone }}
+					</div>
+					<div class="new__subcontent">
+						{{ post.address }}
+					</div>
+
+
+				</div>
+				<ul class="action__menu">
+					<li class="action__item purple_bc">
+						{% if not in_fav %}
+						<a href="{% url 'fav_post' post.slug %}" class="action__link white_bc">Добавить в избранное</a>
+						{% else %}
+						<a href="{% url 'fav_post' post.slug %}" class="action__link white_bc">Убрать из избранного</a>
+						{% endif %}
+					</li>
+					<li class="action__item purple_bc"><a href="{% url 'add_comment' post.id %}" class="action__link white_bc">Прокомментировать</a></li>
+
+				</ul>
+
+			</div>
+
+
+			<div class="comments__container">
+					<div class="article__comments-block">
+						<h3 class="comments__title">Комментарии</h3>
+						<br>
+						<div class="comments__body">
+						{% if not post.comments.all %}
+							{% if user.is_authenticated %}
+							<span class="no_comments">Нет комментариев</span>
+							<br>
+							<br>
+							<
+
+							{% else %}
+								<div class="no_comments">Регистрируйся, чтобы оставлять комментарии</div>
+								<br>
+
+								<a href="{% url 'login' %}" class="add_comment-link">Войти</a> или <a href="{% url 'user_registration' %}" class="add_comment-link">Зарегистрироваться</a>
+							{% endif %}
+						{% else %}
+							{% if user.is_authenticated %}
+
+							{% else %}
+								<div class="no_comments">Регистрируйся, чтобы оставлять комментарии</div>
+								<br>
+							<br>
+								<a href="{% url 'login' %}" class="add_comment-link">Войти</a> или <a href="{% url 'user_registration' %}" class="add_comment-link">Зарегистрироваться</a>
+								<br>
+							{% endif %}
+							{% for comment in post.comments.all %}
+								{% if comment.comment_author.id == user.id %}
+									{% if comment.comment_author.profile.profile_pic %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<div class="comment__data">
+										<span class="comment__date">{{ comment.date_added }}</span>
+										<a href="{% url 'delete_comment' comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+									</div>
+								</div>
+									{% else %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'sforum/images/img/user profile image.jpg' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<div class="comment__data">
+										<span class="comment__date">{{ comment.date_added }}</span><a href="{% url 'delete_comment' comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+									</div>
+								</div>
+									{% endif %}
+								{% else %}
+									{% if comment.comment_author.profile.profile_pic %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<span class="comment__date">{{ comment.date_added }}</span>
+								</div>
+									{% else %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'xforum/images/img/user profile image.jpg' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<span class="comment__date">{{ comment.date_added }}</span>
+								</div>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}

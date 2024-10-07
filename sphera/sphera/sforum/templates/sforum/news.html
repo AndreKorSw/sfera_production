@@ -1,0 +1,39 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% load sforum_tags %}
+
+{% block content %}
+<main class="main">
+	<div class="container">
+		<h3 class="page__venues-title"><a href="{% url 'home' %}" class="page__venues_link">НОВОСТИ</a></h3>
+
+        <section class="news">
+
+				<div class="news__container">
+
+
+					{% for n in news %}
+					<div class="new">
+						{% if n.company_name.profile.id %}
+						<div class="new__author">
+							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">
+							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username }}</a>
+						{% endif %}
+
+						</div>
+						{% if n.photo %}
+						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>
+						{% endif %}
+						<div class="new__info-container">
+							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>
+
+						</div>
+
+					</div>
+					{% endfor %}
+				</div>
+			</section>
+    </div>
+</main>
+
+{% endblock %}

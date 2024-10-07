@@ -1,0 +1,30 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% block form2 %}
+{% endblock form2 %}
+
+{% block content %}
+
+<div class="page_body-container">
+    <div class="page-container">
+        <div class="content__container">
+            <div class="form__container">
+                <form  method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>{{ form.non_field_errors }}</div>
+                    <h2 class="form__title">Войти</h2>
+                    {% for f in form %}
+                    <div class="form__group">
+                        <label class="form__label" for="{{ f.id_for_label }}">{{ f.label }} </label>
+                        <div class="form__input"></div>
+                        <div>{{ f.errors }}</div>
+                    </div>
+                    {% endfor %}
+                    <button class="article__learn-more" type="submit"><span class="article__learn-more-link">Войти</span></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}l>
