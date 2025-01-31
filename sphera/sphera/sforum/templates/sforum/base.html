@@ -1,0 +1,194 @@
+{% load static %}
+{% load sforum_tags %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<title>SFERA</title>
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
+	<link rel="stylesheet"  href="{% static 'sforum/css/style.css' %}">
+	<meta name="viewport" content="width=device-width">
+	<link rel="shortcut icon" href="{% static 'sforum/images/img/favicon sphera.ico' %}">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<body>
+	{% block mainmenu %}
+	<div class="wrapper">
+		<header class="header">
+			<div class="container">
+				<div class="header__container">
+					<a href="{% url 'home' %}" class="header__logo">sf<span class ='e'>e</span>ra.msk</a>
+					<div class="header__menu">
+						<ul class="menu__list">
+							{% if request.user.is_authenticated %}
+                            {% for m in menu %}
+							<li class="menu__item purple-td">
+								<a href="{% url m.url_name %}" class="menu__link">{{ m.title }}</a>
+							</li>
+
+                            {% endfor %}
+							<li class="menu__item purple-td">
+								<a href="{% url 'show_news' %}" class="menu__link">НОВОСТИ</a>
+							</li>
+							<li class="menu__item purple-td">
+								<a href="{% url 'show_reviews' %}" class="menu__link">АФИША</a>
+							</li>
+							{% else %}
+							<li class="menu__item purple-td">
+								<a href="{% url 'show_venues' %}" class="menu__link">МЕСТА</a>
+							</li>
+							<li class="menu__item purple-td">
+								<a href="{% url 'show_news' %}" class="menu__link">НОВОСТИ</a>
+							</li>
+							<li class="menu__item purple-td">
+								<a href="{% url 'show_reviews' %}" class="menu__link">АФИША</a>
+							</li>
+							{% endif %}
+
+							{% if request.user|has_group:"Компания" %}
+							<li class="menu__item purple-td">
+								<a href="#!"  class="menu__link">ДОБАВИТЬ</a>
+								<ul class="menu__sublist">
+									<li class="menu__subitem">
+										<a href="{% url 'add_new' %}" class="menu__sublink">ПОСТ</a>
+									</li>
+									<li class="menu__subitem">
+										<a href="{% url 'add_post' %}" class="menu__sublink">МЕСТО</a>
+									</li>
+								</ul>
+							</li>
+							{% elif request.user|has_group:"Админ" %}
+							<li class="menu__item purple-td">
+								<a href="#!"  class="menu__link">ДОБАВИТЬ</a>
+								<ul class="menu__sublist">
+
+									<li class="menu__subitem">
+										<a href="{% url 'add_new' %}" class="menu__sublink">ПОСТ</a>
+									</li>
+									<li class="menu__subitem">
+										<a href="{% url 'add_review' %}" class="menu__sublink">ОБЗОР</a>
+									</li>
+									<li class="menu__subitem">
+										<a href="{% url 'add_event' %}" class="menu__sublink">СОБЫТИЕ</a>
+									</li>
+									<li class="menu__subitem">
+										<a href="{% url 'add_post' %}" class="menu__sublink">МЕСТО</a>
+									</li>
+									<li class="menu__subitem">
+										<a href="{% url 'add_banner_photo' %}" class="menu__sublink">РЕКЛАМА</a>
+									</li>
+									<li class="menu__subitem">
+										<a href="{% url 'add_banner_video' %}" class="menu__sublink">ВИДЕО</a>
+									</li>
+
+								</ul>
+							</li>
+
+							{% elif request.user|has_group:"Пользователь" %}
+							<li class="menu__item purple-td"><a href="{% url 'add_new' %}"  class="menu__link">ПОСТ</a></li>
+							{% endif %}
+							<div class="menu__item purple-td">
+								{% if request.user.is_authenticated %}
+									{% if request.user.profile.id %}
+								<a href="{% url 'profile' user.profile.id %}" class="menu__link">ЛК</a>
+<!--									<a href="{% url 'profile' user.profile.id %}" class="menu__link">{{ user.username|truncatechars:24 }}</a>-->
+									{% else %}
+<!--									<a href="{% url 'create_profile' %}" class="menu__link">{{ user.username|truncatechars:24  }}</a>-->
+								<a href="{% url 'create_profile' %}" class="menu__link">ЛК</a>
+									{% endif %}
+								{% else %}
+								<a href="{% url 'login' %}" class="menu__link">ВОЙТИ</a>
+								{% endif %}
+							</div>
+
+						</ul>
+
+
+					</div>
+
+					<div class="burger">
+						<span class='burger__span'></span>
+					</div>
+
+				</div>
+			</div>
+		</header>
+{% block content %}
+
+{% endblock %}
+        <footer class="footer">
+			<div class="container">
+				<div class="footer__container">
+					<div class="footer__logo">
+						<a href="{% url 'home' %}" class="footer__logo-link">sf<span class ='e'>e</span>ra</a>
+						<span href="" class="moscow">-MOSCOW-</span>
+
+				    </div>
+
+					<div class="footer__menu">
+						<ul class="footer__list">
+							<li class="footer__item"><a href="{% url 'user_registration' %}" class="footer__link purple">Регистрация</a></li>
+							{% if not request.user.is_authenticated %}
+							<li class="footer__item"><a href="{% url 'login' %}" class="footer__link purple">Войти</a></li>
+							{% else %}
+							<li class="footer__item"><a href="{% url 'logout' %}" class="footer__link purple">Выйти</a></li>
+							{% endif %}
+
+							<li class="footer__item"><a href="{% url 'home' %}" class="footer__link purple">На карте</a></li>
+						</ul>
+						<ul class="footer__list">
+							<li class="footer__item"><a href="{% url 'in_process' %}" class="footer__link purple">О нас</a></li>
+							<li class="footer__item"><a href="{% url 'contacts' %}" class="footer__link purple">Контакты</a></li>
+							<li class="footer__item"><a href="" class="footer__link purple">Главная</a></li>
+						</ul>
+						<ul class="footer__list">
+							<li class="footer__item"><a href="{% url 'agreement' %}" class="footer__link purple">Соглашение</a></li>
+							<li class="footer__item"><a href="{% url 'in_process' %}" class="footer__link purple">Cookies</a></li>
+							<li class="footer__item"><a href="{% url 'in_process' %}" class="footer__link purple">Спецпредложения</a></li>
+						</ul>
+					</div>
+					<div class="footer__menu_phone">
+						<ul class="footer__list">
+							<li class="footer__item"><a href="{% url 'agreement' %}" class="footer__link purple">Соглашение</a></li>
+							<li class="footer__item"><a href="{% url 'home' %}" class="footer__link purple">На карте</a></li>
+							{% if request.user.is_authenticated %}
+							<li class="footer__item"><a href="{% url 'home' %}" class="footer__link purple">Главная</a></li>
+							{% else %}
+							<li class="footer__item"><a href="{% url 'user_registration' %}" class="footer__link purple">Регистрация</a></li>
+							{% endif %}
+						</ul>
+					</div>
+					<div class="footer__data-icons">
+						<div class="contact__info-block"><span class="contact__info-item"></span><a href="#!" id = "contacts_info" class="contact__info-link">+7 926 222 67 82</a></div>
+						<div class="contact__info-block"><span class="contact__info-item"></span><a href="#!" class="contact__info-link">nightpromsk@gmail.com</a></div>
+						<ul class="icons-list2">
+							<li class="icons__item2 purple_bc"><a href="https://instagram.com/sfera_msk?igshid=MmIzYWVlNDQ5Yg==" class="icons__link2 white_c">INST</a></li>
+							<li class="icons__item2 purple_bc"><a href="https://www.youtube.com/@sfera_msk" class="icons__link2 white_c">YT</a></li>
+							<li class="icons__item2 purple_bc"><a href="https://m.vk.com/club222120976" class="icons__link2 white_c">VK</a></li>
+							<li class="icons__item2 purple_bc"><a href="https://t.me/vsferev" class="icons__link2 white_c">TG</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+	<script src="https://api-maps.yandex.ru/2.1/?apikey=180f2065-90cc-4444-8777-d461d5f1ac8f&lang=ru_RU" type="text/javascript"></script>
+	<script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+	<script src="{% static 'sforum/js/script.js' %}" type=""></script>
+	<script src="{% static 'sforum/js/main.js' %}" type=""></script>
+	<script src="{% static 'sforum/js/script3.js' %}" type=""></script>
+	<script src="{% static 'sforum/js/script4.js' %}" type=""></script>
+	<script src="{% static 'sforum/js/script5.js' %}" type=""></script>
+	<script src="{% static 'sforum/js/script6.js' %}" type=""></script>
+
+
+	{% endblock mainmenu %}
+</body>
+
+</html>

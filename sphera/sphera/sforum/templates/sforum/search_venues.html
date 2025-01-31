@@ -1,0 +1,33 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% block content %}
+<main class="main">
+	<div class="container">
+		<h1 class="sp-title">ПОИСК ЗАВЕДЕНИЙ</h1>
+        {% if searched %}
+            <h2 class="webpage__title"> Вы искали <span class="purple_c">{{ searched }}</span> </h2>
+			<section class="news">
+			<div class="container2">
+        <div class="venues2">
+			{% for n in venues %}
+            <div class="venue2">
+				<a href="{{ n.get_absolute_url }}" ><img src="{{ n.photo.url }}" alt=""></a>
+                <div class="venue-content">
+					<a href="{{ n.get_absolute_url }}" ><div class="venue-title">{{ n.title }}</div></a>
+                    <div class="venue-location">{{ n.metro }}</div>
+                    <div class="venue-type">{{ n.cat }}</div>
+                </div>
+            </div>
+			{% endfor %}
+
+        </div></div>
+		</section>
+        {% else %}
+            <h2 class="webpage__title">По вашему запросу ничего не найдено :(</h2>
+<!--            <div class="results_searched">-->
+<!--                <p>No search results</p>-->
+<!--            </div>-->
+        {% endif %}
+        </div>
+</main>
+{% endblock %}

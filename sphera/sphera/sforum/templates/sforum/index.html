@@ -1,0 +1,361 @@
+
+{% extends "sforum/base.html" %}
+{% load sforum_tags %}
+
+{% load static %}
+
+{% block content %}
+
+<main class="main">
+		<section class = "big-banner">
+
+
+
+			<div class="container">
+				{% if request.user|has_group:"Админ" %}
+				<div class="container3" style="padding:0 0 10px 0;">
+					<a href="/swdjadmin/sforum" class="view-all-button" style="display:block; width: 100%;">В АДМИНКУ</a>
+				</div>
+				{% endif %}
+				<div class="main__container">
+					<div class="promo__block">
+
+						<div class="big-banner__block">
+							{% for video_banner in banners_video %}
+
+
+
+								<video  autoplay muted loop src="{{ video_banner.video.url }}" alt="" class="big-banner__pic"></video>
+							{% endfor %}
+								<div class="blurred"></div>
+
+									<div class="video-text">
+										SFERA.MSK
+									</div>
+									<div class="video-icons">
+										<ul class="icons-list">
+											<li class="icons__item purple_bc"><a href="https://instagram.com/sfera_msk?igshid=MmIzYWVlNDQ5Yg==" class="icons__link white_c">INST</a></li>
+											<li class="icons__item purple_bc"><a href="https://www.youtube.com/@sfera_msk" class="icons__link white_c">YT</a></li>
+											<li class="icons__item purple_bc"><a href="https://m.vk.com/club222120976" class="icons__link white_c">VK</a></li>
+											<li class="icons__item purple_bc"><a href="https://t.me/vsferev" class="icons__link white_c">TG</a></li>
+										</ul>
+									</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="soc_banner">
+			<div class="container">
+				<div class="main__container">
+					<div class="small-banner__block">
+    <a href="https://t.me/vsferev" target="_blank" class="telegram-button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34">
+            <path d="M9.738 17.499 8.706 21.48c.327 0 .472-.14.646-.308l1.555-1.504 3.23 2.371c.588.323 1.007.154 1.151-.537l2.087-9.79h-.001c.213-.844-.309-1.176-.88-.976l-12.044 4.657c-.822.323-.807.791-.14.999l3.085.964 7.154-4.502c.339-.207.646-.093.393.113z"/>
+        </svg>
+        <span>Подписывайся на наш Telegram</span>
+    </a>
+</body>
+					</div>
+				</div>
+			</div>
+
+		</section>
+		<section class = "small-banner">
+			<div class="container">
+				<div class="main__container">
+					 {% if banners_photo.exists %}
+						<div class="slider_container">
+							{% for photo_banner in banners_photo %}
+							<div class="slide" style="background-image: url('{{ photo_banner.img.url }}');"></div>
+							{% endfor %}
+
+							<button class="slide_button prev_button" onclick="changeSlide(-1)">&#10094;</button>
+							<button class="slide_button next_button" onclick="changeSlide(1)">&#10095;</button>
+						</div>
+					{% endif %}
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    // Функция для отображения слайда по индекс
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            // Перемещаем слайды за пределы видимой области
+            slide.style.left = i === index ? '0' : '100%';
+        });
+    }
+
+    // Функция для изменения слайда по направлению
+    function changeSlide(direction) {
+        currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+        showSlide(currentSlide);
+    }
+
+    // Изначально показываем первый слайд
+    showSlide(currentSlide);
+
+    // Автоматическое переключение слайдов каждые 7 секунд
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        showSlide(currentSlide);
+    }, 7000);
+</script>
+
+			</div>
+		</section>
+		<section class="events">
+			<div class="container">
+				<div class="main__container" style="
+				background: url('{% static 'sforum/images/img/' %}');">
+					<h1 class="sp-title" style="font-size:36px;">EVENTS IN MSK</h1>
+
+    <div class="button-container">
+        <a href="{% url 'show_reviews_for_life' %}">FOR LIFE</a>
+        <div class="divider"></div>
+        <a href="{% url 'show_reviews_fire_fun' %}">FIRE FUN</a>
+    </div>
+					 <div class="slider-container">
+    <div class="slider-wrapper">
+		{% for event in events %}
+      <div class="card1">
+        <a class="new__photo-link" href="{{ event.get_absolute_url }}"><img src="{{ event.photo.url }}" alt="Изображение 1"></a>
+		  <a class="new__photo-link" href="{{ event.get_absolute_url }}"><h2>{{ event.title }}</h2></a>
+        <p>{{ event.content }}</p>
+          <div class="city-buttons">
+			  <button>Москва</button>
+              <button>Актуальное</button>
+
+          </div>
+      </div>
+		{% endfor %}
+    </div>
+
+    <button class="slider-button slider-button-prev">&#10094;</button>
+    <button class="slider-button slider-button-next">&#10095;</button>
+  </div>
+<!--					 <div class="slider-container">-->
+<!--    <div class="slider-wrapper">-->
+<!--      <div class="card1">-->
+<!--        <img src="https://via.placeholder.com/260x190" alt="Изображение 1">-->
+<!--        <h2>Мероприятие 1</h2>-->
+<!--        <p>Описание мероприятия 1.</p>-->
+<!--        <div class="city-buttons">-->
+<!--          <button>Москва</button>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--    </div>-->
+
+<!--    <button class="slider-button slider-button-prev">&#10094;</button>-->
+<!--    <button class="slider-button slider-button-next">&#10095;</button>-->
+<!--  </div>-->
+
+		</section>
+		<section class="map1">
+			<div class="container">
+				<div class="main__container">
+					<h1 class="sp-title">НА КАРТЕ</h1>
+					<div class="map__container">
+<!--						<div class="map__search">-->
+<!--							<form class="search_form" id = "search_form" method="POST" action="{% url 'search-venues' %}">-->
+<!--								{% csrf_token %}-->
+<!--								<input class="map__search-input" type="search" placeholder="Поиск заведений" name="searched">-->
+
+<!--							</form>-->
+<!--							<button  class="map__search-icon" type="submit" form="search_form">НАЙТИ</button>-->
+
+<!--						</div>-->
+						<div class="search-bar">
+							<form class="search_form" id = "search_form" method="POST" action="{% url 'search-venues' %}">
+								{% csrf_token %}
+								<input type="text"  type="search" placeholder="Поиск заведений" name="searched">
+							</form>
+							<button  type="submit" form="search_form">Найти</button>
+						</div>
+						<div class="map__block">
+							<div class="map" id="map"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class = "places">
+				<div class="container">
+					<div class="main__container">
+						<h1 class="sp-title">МЕСТА</h1>
+
+    <div class="container2">
+        <div class="venues2">
+			{% for n in posts %}
+            <div class="venue2">
+				<a href="{{ n.get_absolute_url }}" ><img src="{{ n.photo.url }}" alt=""></a>
+                <div class="venue-content">
+					<a class="new__photo-link" href="{{ n.get_absolute_url }}"><div class="venue-title">{{ n.title }}</div></a>
+                    <div class="venue-location">м.{{ n.metro }}</div>
+                    <div class="venue-type">{{ n.cat }}</div>
+                </div>
+            </div>
+			{% endfor %}
+
+        </div></div>
+						 <div class="container3">
+    <a href="/show_venues" class="view-all-button" >Посмотреть все</a>
+  </div>
+
+
+
+
+	</div>
+		</section>
+		<section class="news">
+			<div class="container">
+				<div class="main__container">
+					<h1 class="sp-title">ПОСТЫ</h1>
+
+
+<div class="card-wrapper">
+    <div class="card-grid">
+        {% for n in news %}
+		{% if not n.company_name|has_group:"Пользователь" %}
+        <div class="card">
+            <a href="{{ n.get_absolute_url }}"><img src="{{ n.photo.url }}" alt=""></a>
+            <div class="card-content">
+                <a href="{{ n.get_absolute_url }}" class="new__photo-link">
+                    <div class="card-title">{{ n.title }}</div>
+                </a>
+                {% if n.company_name.profile.id %}
+                <a href="{% url 'profile' n.company_name.profile.id %}">
+
+                    <div class="card-author">Автор: {{ n.company_name.username }}</div>
+
+                </a>
+                {% endif %}
+                <div class="card-text">{{ n.content|truncatechars:40 }}</div>
+				<div class="card-footer">
+
+
+                <!-- Иконки лайков и комментариев -->
+                <div class="card-icons">
+					<form action="{% url 'like_post' n.slug %}" method="POST">
+                  {% csrf_token %}
+
+                  {% if user.is_authenticated %}
+                    {% if liked %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ n.total_likes }}</span>
+						<button type="submit" name="post_id" value="{{ n.id }}" style="background: transparent; border: none; cursor: pointer;"><a href="#"><i class="fas fa-thumbs-up"></i></a></button>
+					</div>
+					{% else %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ n.total_likes }}</span>
+                    <button type="submit" name="post_id" value="{{ n.id }}" style="background: transparent; border: none; cursor: pointer;"><a href="#"><i class="fas fa-thumbs-up"></i></a></button></div>
+					{% endif %}
+				  {% else %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ n.total_likes }}</span>
+                    <a href="{% url 'login' %}"><i class="fas fa-thumbs-up"></i></a></div>
+				  {% endif %}
+					</form>
+				  {% if user.is_authenticated %}
+					<div class="card-icons-block"><span class="card-icons-span" >{{ n.news_comments.total_comments }}</span>
+                    <a href="/add_news_comment/{{ n.pk }}"><i class="fas fa-comment-dots"></i></a></div>
+				  {% else %}
+					<div class="card-icons-block"><span class="card-icons-span" >{{ n.news_comments.total_comments }}</span>
+                    <a href="{% url 'login' %}"><i class="fas fa-comment-dots"></i></a></div>
+				  {% endif %}
+
+
+                </div>
+
+                <!-- Блок с кнопкой "Поделиться" -->
+                <div class="card-share">
+                    <div class="share-button" onclick="shareContent('{{ n.get_absolute_url }}')">
+                        <span>Поделиться</span>
+                    </div>
+                </div>
+            </div>
+.
+            </div>
+
+            <!-- Контейнер для иконок и кнопки "Поделиться" -->
+
+        </div>
+		{% if n.news_comments.exists %}
+		<div class="comments">
+
+						<a href="{{ n.get_absolute_url }}" class = "comments-title"> Читать все про <span style="color:;">{{ n.title }}</span></a>
+						{% for comment in n.news_comments.all|slice:":4" %}
+							<div class="comment">
+
+								{% if comment.comment_author.profile.profile_pic %}
+								<img class="comment-avatar" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" >
+                                {% else %}
+                                <img class="comment-avatar" src="{% static 'sforum/images/img/img_28.png' %}" alt="" >
+                                {% endif %}
+								<div class="comment-content">
+									<div class="comment-header">
+										<a href = "{% url 'profile' comment.comment_author.profile.id %}" class="comment-author">{{ comment.comment_author.username }}</a>
+										<time class="comment-time">{{ comment.date_added }}</time>
+									</div>
+									<p class="comment-text">{{ comment.body|truncatechars:40  }}</p>
+								</div>
+							</div>
+						{% endfor %}
+
+					</div>
+		{% endif %}
+		{% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<!-- JavaScript для использования Web Share API -->
+
+
+
+  <div class="container3">
+    <a href="/show_news" class="view-all-button">Посмотреть все</a>
+  </div>
+
+
+
+
+			</div>
+			</div>
+		</section>
+		<section class = "activities">
+				<div class="container">
+					<div class="main__container">
+
+					<h1 class="sp-title">ПОСЛЕДНИЕ КОММЕНТАРИИ</h1>
+					<div class="comments">
+						{% for comment in news_comments %}
+							<div class="comment">
+								{% if comment.comment_author.profile.profile_pic %}
+								<img class="comment-avatar" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" >
+                                {% else %}
+                                <img class="comment-avatar" src="{% static 'sforum/images/img/img_28.png' %}" alt="" >
+                                {% endif %}
+								<div class="comment-content1">
+									<div class="comment-header">
+										<a href = "{% url 'profile' comment.comment_author.profile.id %}" class="comment-author">{{ comment.comment_author.username }}</a>
+										<time class="comment-time">{{ comment.date_added }}</time>
+									</div>
+									<p class="comment-text1">{{ comment.body }}</p>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+
+					</div>
+					</div>
+					</div>
+		</section>
+</main>
+<script src="{% static 'sforum/js/script3.js' %}" type=""></script>
+<script src="{% static 'sforum/js/script4.js' %}" type=""></script>
+<script src="{% static 'sforum/js/script6.js' %}" type=""></script>
+
+
+
+
+{% endblock %}

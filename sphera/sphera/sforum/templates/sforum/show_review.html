@@ -1,0 +1,79 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% block form2 %}
+{% endblock form2 %}
+{% block content %}
+<main class="main">
+	<div class="container">
+		       <style>
+
+
+  .news-image-wrapper {
+    align-items:center;
+    position: relative;
+    height: 400px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  /* Размытый фон */
+  .news-image-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('{{ review.photo.url }}');
+    background-size: cover;
+    background-position: center;
+    filter: blur(15px);
+    z-index: 1;
+  }
+
+  /* Картинка, которая будет отображаться поверх */
+  .news-image {
+    top: 13%;
+    position: relative;
+    display:block;
+    margin:0 auto;
+    z-index: 2;
+    width: 100%;
+    max-width: 600px; /* Ограничиваем максимальный размер */
+    height: 300px; /* Максимальная высота */
+    object-fit: cover;
+    object-position: center;
+  }
+
+
+  /* Адаптивность */
+  @media (max-width: 768px) {
+    .news-image-wrapper {
+      height: auto; /* Оставляем оригинальный размер изображения */
+    }
+  }
+
+
+</style>
+
+		<div class="event__block">
+			<div class="event__photo">
+				<div class="news-image-wrapper">
+					<img class="news-image" src="{{ review.photo.url }}" alt="News Image">
+				  </div>
+
+<!--				<div class="event__photo-title words">{{ review.title }}</div>-->
+
+
+			</div>
+			<div class="event__content">
+					<div class="event__photo-title words">{{ review.title }}</div>
+
+<!--				<div class="event__content-about">ПРО СОБЫТИЕ</div>-->
+				<div class="event__content-text words">{{ review.content }}</div>
+			</div>
+
+
+	</div>
+</main>
+{% endblock %}

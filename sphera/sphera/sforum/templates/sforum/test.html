@@ -1,0 +1,1368 @@
+<div class="main__container">
+						<div class="page__venues-block">
+							<h3 class="page__venues-title"><a href="{% url 'home' %}" class="page__venues_link">ПОСЛЕДНИЕ КОММЕНТАРИИ</a></h3>
+							<img class="watch_more-img" src="{% static 'sforum/images/img/icon-arrow.svg' %}">
+						</div>
+						<div class="comments__container">
+					<div class="article__comments-block">
+						<div class="comments__body">
+							{% for comment in comments %}
+								{% if comment.comment_author.id == user.id %}
+									{% if comment.comment_author.profile.profile_pic %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<div class="comment__data">
+										<span class="comment__date">{{ comment.date_added }}</span>
+										<a href="{% url 'delete_comment' comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+									</div>
+								</div>
+									{% else %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'sforum/images/img/img_28.png' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<div class="comment__data">
+										<span class="comment__date">{{ comment.date_added }}</span>
+										<a href="{% url 'delete_comment' comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+									</div>
+								</div>
+									{% endif %}
+								{% else %}
+									{% if comment.comment_author.profile.profile_pic %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<span class="comment__date">{{ comment.date_added }}</span>
+								</div>
+									{% else %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'xforum/images/img/user profile image.jpg' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<span class="comment__date">{{ comment.date_added }}</span>
+								</div>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+							{% for news_comment in news_comments %}
+								{% if news_comment.comment_author.id == user.id %}
+									{% if news_comment.comment_author.profile.profile_pic %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+
+									</div>
+									<div class="comment__content">{{ news_comment.body }}</div>
+									<div class="comment__data">
+										<span class="comment__date">{{ news_comment.date_added }}</span>
+										<a href="{% url 'delete_comment' news_comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+									</div>
+								</div>
+									{% else %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'sforum/images/img/img_28.png' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ news_comment.comment_author.username }}</span>
+
+									</div>
+									<div class="comment__content">{{ news_comment.body }}</div>
+									<div class="comment__data">
+										<span class="comment__date">{{ news_comment.date_added }}</span>
+										<a href="{% url 'delete_news_comment' news_comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+
+									</div>
+								</div>
+									{% endif %}
+								{% else %}
+									{% if news_comment.comment_author.profile.profile_pic %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ news_comment.comment_author.username }}</span>
+									</div>
+									<div class="comment__content">{{ news_comment.body }}</div>
+									<span class="comment__date">{{ news_comment.date_added }}</span>
+								</div>
+									{% else %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'sforum/images/img/user profile image.jpg' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ news_comment.comment_author.username }}</span>
+									</div>
+									<div class="comment__content">{{ news_comment.body }}</div>
+									<span class="comment__date">{{ news_comment.date_added }}</span>
+								</div>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+
+						</div>
+					</div>
+
+
+
+						</div>
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% for n in posts %}
+					<div class="new">
+<!--						{% if n.company_name.profile.id %}-->
+<!--						<div class="new__author">-->
+<!--							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">-->
+<!--							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username|truncatechars:35 }}</a>-->
+<!--						{% endif %}-->
+
+<!--						</div>-->
+						{% if n.photo %}
+						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>
+						{% endif %}
+						<div class="new__info-container">
+							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>
+							<div class="metro__block">м. {{ n.metro }}</div>
+<!--							<div class="address__block">{{ n.address }}</div>-->
+							<span class="new__category">{{ n.cat }}</span>
+
+
+<!--							<div class="new__data">-->
+<!--								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>-->
+<!--							</div>-->
+						</div>
+<!--						<ul class="action__menu">-->
+<!--							{% if user.id == n.company_name.id %}-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>-->
+<!--							{% endif %}-->
+<!--						</ul>-->
+					</div>
+					{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="post__card">
+				{% if post.company_name.profile.id %}
+				<div class="new__author">
+					<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">
+					<a href="{% url 'profile' post.company_name.profile.id %}" class="new__author-link">{{ post.company_name.username }}</a>
+				{% endif %}
+				</div>
+				{% if post.photo %}
+				<div class="new__photo"><a href="" class="new__photo-link"><img src="{{ post.photo.url }}" alt=""  class="new__photo-pic-detail"></a></div>
+				{% endif %}
+				<div class="new__info-container">
+					<div class="new__title"><span>{{ post.title }}</span></div>
+					<div class="new__content2">
+						{{ post.content }}
+					</div>
+					<div class="new__subcontent">
+						{{ post.phone }}
+					</div>
+					<div class="new__subcontent">
+						{{ post.address }}
+					</div>
+
+
+				</div>
+				<ul class="action__menu">
+					<li class="action__item purple_bc">
+						{% if not in_fav %}
+						<a href="{% url 'fav_post' post.slug %}" class="action__link white_bc">Добавить в избранное</a>
+						{% else %}
+						<a href="{% url 'fav_post' post.slug %}" class="action__link white_bc">Убрать из избранного</a>
+						{% endif %}
+					</li>
+					<li class="action__item purple_bc"><a href="{% url 'add_comment' post.id %}" class="action__link white_bc">Прокомментировать</a></li>
+
+				</ul>
+
+			</div>
+
+
+			<div class="comments__container">
+					<div class="article__comments-block">
+						<h3 class="comments__title">Комментарии</h3>
+						<br>
+						<div class="comments__body">
+						{% if not post.comments.all %}
+							{% if user.is_authenticated %}
+							<span class="no_comments">Нет комментариев</span>
+							<br>
+							<br>
+							<
+
+							{% else %}
+								<div class="no_comments">Регистрируйся, чтобы оставлять комментарии</div>
+								<br>
+
+								<a href="{% url 'login' %}" class="add_comment-link">Войти</a> или <a href="{% url 'user_registration' %}" class="add_comment-link">Зарегистрироваться</a>
+							{% endif %}
+						{% else %}
+							{% if user.is_authenticated %}
+
+							{% else %}
+								<div class="no_comments">Регистрируйся, чтобы оставлять комментарии</div>
+								<br>
+							<br>
+								<a href="{% url 'login' %}" class="add_comment-link">Войти</a> или <a href="{% url 'user_registration' %}" class="add_comment-link">Зарегистрироваться</a>
+								<br>
+							{% endif %}
+							{% for comment in post.comments.all %}
+								{% if comment.comment_author.id == user.id %}
+									{% if comment.comment_author.profile.profile_pic %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<div class="comment__data">
+										<span class="comment__date">{{ comment.date_added }}</span>
+										<a href="{% url 'delete_comment' comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+									</div>
+								</div>
+									{% else %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'sforum/images/img/user profile image.jpg' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<div class="comment__data">
+										<span class="comment__date">{{ comment.date_added }}</span><a href="{% url 'delete_comment' comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+									</div>
+								</div>
+									{% endif %}
+								{% else %}
+									{% if comment.comment_author.profile.profile_pic %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<span class="comment__date">{{ comment.date_added }}</span>
+								</div>
+									{% else %}
+								<div class="comment__block">
+									<div class="comment__author-container">
+										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'xforum/images/img/user profile image.jpg' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>
+									</div>
+									<div class="comment__content">{{ comment.body }}</div>
+									<span class="comment__date">{{ comment.date_added }}</span>
+								</div>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--					<div class="new">-->
+<!--						{% if n.company_name.profile.id %}-->
+<!--&lt;!&ndash;						<div class="new__author">&ndash;&gt;-->
+<!--&lt;!&ndash;							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">&ndash;&gt;-->
+<!--&lt;!&ndash;							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username|truncatechars:35 }}</a>&ndash;&gt;-->
+<!--&lt;!&ndash;						{% endif %}&ndash;&gt;-->
+
+<!--&lt;!&ndash;						</div>&ndash;&gt;-->
+<!--						{% if n.photo %}-->
+<!--						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>-->
+<!--						{% endif %}-->
+<!--						<div class="new__info-container">-->
+<!--							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title|truncatechars:40 }}</a></div>-->
+<!--							<div class="metro__block">м. {{ n.metro }}</div>-->
+<!--&lt;!&ndash;							<div class="address__block">{{ n.address }}</div>&ndash;&gt;-->
+<!--							<span class="new__category">{{ n.cat }}</span>-->
+
+
+<!--&lt;!&ndash;							<div class="new__data">&ndash;&gt;-->
+<!--&lt;!&ndash;								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>&ndash;&gt;-->
+<!--&lt;!&ndash;							</div>&ndash;&gt;-->
+<!--						</div>-->
+<!--&lt;!&ndash;						<ul class="action__menu">&ndash;&gt;-->
+<!--&lt;!&ndash;							{% if user.id == n.company_name.id %}&ndash;&gt;-->
+<!--&lt;!&ndash;							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;							{% endif %}&ndash;&gt;-->
+<!--&lt;!&ndash;						</ul>&ndash;&gt;-->
+<!--					</div>-->
+
+
+
+
+<!---->
+<!--                <div class="profile__data-block">-->
+<!--                    <div class="profile__image-block">-->
+<!--                        {% if page_user.profile_pic %}-->
+<!--                        <img src="{{ page_user.profile_pic.url }}" alt="" class="profile__pic">-->
+<!--                        {% else %}-->
+<!--                        <img src="{% static 'sforum/images/img/img_28.png' %}" alt="" class="profile__pic">-->
+<!--                        {% endif %}-->
+<!--                    </div>-->
+<!--                    <div class="about__user">-->
+<!--                        <div class="user_profile-body">-->
+<!--                            <div class="profile__user-name">{{ page_user.user.username }}</div>-->
+<!--                            <div class="profile__user-email">{{ page_user.user.email }}</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="filter-container">-->
+<!--    <div class="filter-buttons">-->
+<!--        <a class="filter-button filter-highlight" href="{{ page_user.user.web_site_url }}">САЙТ</a>-->
+<!--        <a class="filter-button filter-highlight" href="{{ page_user.user.tg_url }}">TELEGRAM</a>-->
+<!--        <a class="filter-button filter-highlight" href="{{ page_user.user.instagram_url }}">INSTAGRAM</a>-->
+<!--        <a class="filter-button filter-highlight" href="{{ page_user.user.vk_url }}">VK</a>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--                </div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--                    <div class="news__container">-->
+<!--                        {% for n in page_user_venues %}-->
+
+<!--                        <div class="new">-->
+<!--						{% if n.photo %}-->
+<!--						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>-->
+<!--						{% endif %}-->
+<!--						<div class="new__info-container">-->
+<!--							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>-->
+<!--							<div class="metro__block">м. {{ n.metro }}</div>-->
+<!--&lt;!&ndash;							<div class="address__block">{{ n.address }}</div>&ndash;&gt;-->
+<!--							<span class="new__category">{{ n.cat }}</span>-->
+
+
+<!--&lt;!&ndash;							<div class="new__data">&ndash;&gt;-->
+<!--&lt;!&ndash;								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>&ndash;&gt;-->
+<!--&lt;!&ndash;							</div>&ndash;&gt;-->
+<!--						</div>-->
+<!--						<ul class="action__menu">-->
+<!--							{% if user.id == n.company_name.id %}-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>-->
+<!--							{% endif %}-->
+<!--						</ul>-->
+<!--					</div>-->
+<!--                        {% endfor %}-->
+<!--                    </div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--                    <div class="news__container">-->
+<!--                       {% for n in page_user_news %}-->
+
+<!--                        <div class="new">-->
+<!--						{% if n.photo %}-->
+<!--						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>-->
+<!--						{% endif %}-->
+<!--						<div class="new__info-container">-->
+<!--							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>-->
+<!--						</div>-->
+<!--						<ul class="action__menu">-->
+<!--							{% if user.id == n.company_name.id %}-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'update_new' n.slug %}" class="action__link white_c">Редактировать</a></li>-->
+<!--							<li class="action__item purple_bc"><a href="{% url 'delete_new' n.slug %}" class="action__link white_c">Удалить</a></li>-->
+<!--							{% endif %}-->
+<!--						</ul>-->
+<!--					</div>-->
+<!--                        {% endfor %}-->
+<!--                    </div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--					<div class="news__container">-->
+<!--						{% for n in news %}-->
+<!--						<div class="new">-->
+<!--						{% if n.company_name.profile.id %}-->
+<!--						<div class="new__author">-->
+<!--							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">-->
+<!--							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username }}</a>-->
+<!--						{% endif %}-->
+
+<!--						</div>-->
+<!--						{% if n.photo %}-->
+<!--						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>-->
+<!--						{% endif %}-->
+<!--						<div class="new__info-container">-->
+<!--							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>-->
+<!--&lt;!&ndash;							<div class="address__block">{{ n.address }}</div>&ndash;&gt;-->
+
+
+
+<!--&lt;!&ndash;							<div class="new__data">&ndash;&gt;-->
+<!--&lt;!&ndash;								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>&ndash;&gt;-->
+<!--&lt;!&ndash;							</div>&ndash;&gt;-->
+<!--						</div>-->
+<!--&lt;!&ndash;						<ul class="action__menu">&ndash;&gt;-->
+<!--&lt;!&ndash;							{% if user.id == n.company_name.id %}&ndash;&gt;-->
+<!--&lt;!&ndash;							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;							{% endif %}&ndash;&gt;-->
+<!--&lt;!&ndash;						</ul>&ndash;&gt;-->
+<!--					</div>-->
+<!--&lt;!&ndash;							<ul class="action__menu">&ndash;&gt;-->
+<!--&lt;!&ndash;								{% if user.id == n.company_name.id %}&ndash;&gt;-->
+<!--&lt;!&ndash;								<li class="action__item purple_bc"><a href="{% url 'update_new' n.slug %}" class="action__link white_c">Редактировать</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;								<li class="action__item purple_bc"><a href="{% url 'delete_new' n.slug %}" class="action__link white_c">Удалить</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;								{% endif %}&ndash;&gt;-->
+<!--&lt;!&ndash;							</ul>&ndash;&gt;-->
+
+<!--					{% endfor %}-->
+<!--				</div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--						<div class="news__container">-->
+
+
+<!--&lt;!&ndash;					{% for n in posts %}&ndash;&gt;-->
+<!--&lt;!&ndash;					<div class="new">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;						{% if n.company_name.profile.id %}&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;						<div class="new__author">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username|truncatechars:35 }}</a>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;						{% endif %}&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;						</div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;						{% if n.photo %}&ndash;&gt;-->
+<!--&lt;!&ndash;						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>&ndash;&gt;-->
+<!--&lt;!&ndash;						{% endif %}&ndash;&gt;-->
+<!--&lt;!&ndash;						<div class="new__info-container">&ndash;&gt;-->
+<!--&lt;!&ndash;							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>&ndash;&gt;-->
+<!--&lt;!&ndash;							<div class="metro__block">м. {{ n.metro }}</div>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							<div class="address__block">{{ n.address }}</div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;							<span class="new__category">{{ n.cat }}</span>&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;&lt;!&ndash;							<div class="new__data">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							</div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;						</div>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;						<ul class="action__menu">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							{% if user.id == n.company_name.id %}&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							{% endif %}&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;						</ul>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;					</div>&ndash;&gt;-->
+<!--&lt;!&ndash;					{% endfor %}&ndash;&gt;-->
+<!--				</div>-->
+<style>
+
+
+    .card-wrapper {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(228, 81, 254, 0.3);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 16px;
+      text-align: center;
+    }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 8px 0;
+      color: #e451fe;
+    }
+
+    .card-author {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0e5ff;
+      color: #e451fe;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 8px 12px;
+      margin: 12px auto;
+      width: fit-content;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(228, 81, 254, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .card-author:hover {
+      transform: scale(1.05);
+    }
+
+    .card-text {
+      font-size: 16px;
+      color: #555555;
+      margin: 8px 0 0;
+    }
+
+    .card-title::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 3px;
+      background-color: #e451fe;
+      margin: 8px auto;
+      transition: width 0.3s ease;
+    }
+
+    .card:hover .card-title::after {
+      width: 80px;
+    }
+  </style>
+
+
+
+
+
+
+
+
+
+<!--  <div class="card-wrapper">-->
+<!--    <div class="card-grid">-->
+<!--		{% for n in news %}-->
+<!--      <div class="card">-->
+<!--		  <a href="{{ n.get_absolute_url }}" ><img src="{{ n.photo.url }}" alt=""></a>-->
+<!--        <div class="card-content">-->
+<!--			<a href="{{ n.get_absolute_url }}" class="new__photo-link"><div class="card-title">{{ n.title }}</div></a>-->
+<!--			{% if n.company_name.profile.id %}-->
+<!--          <a href="{% url 'profile' n.company_name.profile.id %}"><div class="card-author">Автор: {{ n.company_name.username }}</div></a>-->
+<!--          {% endif %}-->
+<!--			<div class="card-text">Краткое описание новости или дополнительная информация.</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--		{% endfor %}-->
+
+<!--  </div>-->
+
+
+<!--&lt;!&ndash;					<div class="news__container">&ndash;&gt;-->
+<!--&lt;!&ndash;						{% for n in news %}&ndash;&gt;-->
+<!--&lt;!&ndash;						<div class="new">&ndash;&gt;-->
+<!--&lt;!&ndash;						{% if n.company_name.profile.id %}&ndash;&gt;-->
+<!--&lt;!&ndash;						<div class="new__author">&ndash;&gt;-->
+<!--&lt;!&ndash;							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">&ndash;&gt;-->
+<!--&lt;!&ndash;							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username }}</a>&ndash;&gt;-->
+<!--&lt;!&ndash;						{% endif %}&ndash;&gt;-->
+
+<!--&lt;!&ndash;						</div>&ndash;&gt;-->
+<!--&lt;!&ndash;						{% if n.photo %}&ndash;&gt;-->
+<!--&lt;!&ndash;						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>&ndash;&gt;-->
+<!--&lt;!&ndash;						{% endif %}&ndash;&gt;-->
+<!--&lt;!&ndash;						<div class="new__info-container">&ndash;&gt;-->
+<!--&lt;!&ndash;							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							<div class="address__block">{{ n.address }}</div>&ndash;&gt;&ndash;&gt;-->
+
+
+
+<!--&lt;!&ndash;&lt;!&ndash;							<div class="new__data">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							</div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;						</div>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;						<ul class="action__menu">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							{% if user.id == n.company_name.id %}&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							{% endif %}&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;						</ul>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;					</div>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							<ul class="action__menu">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;								{% if user.id == n.company_name.id %}&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;								<li class="action__item purple_bc"><a href="{% url 'update_new' n.slug %}" class="action__link white_c">Редактировать</a></li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;								<li class="action__item purple_bc"><a href="{% url 'delete_new' n.slug %}" class="action__link white_c">Удалить</a></li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;								{% endif %}&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							</ul>&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;					{% endfor %}&ndash;&gt;-->
+<!--&lt;!&ndash;				</div>&ndash;&gt;-->
+
+<!--  </div></div>-->
+<!--				.card-wrapper {-->
+<!--  max-width: 1200px;-->
+<!--  margin: 20px auto;-->
+<!--  padding: 0px;-->
+<!--}-->
+
+<!--.card-grid {-->
+<!--  display: grid;-->
+<!--  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));-->
+<!--  gap: 20px;-->
+<!--}-->
+
+<!--.card {-->
+<!--  background-color: #ffffff;-->
+<!--  border-radius: 16px;-->
+<!--  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);-->
+<!--  overflow: hidden;-->
+<!--  transition: transform 0.3s ease, box-shadow 0.3s ease;-->
+<!--}-->
+
+<!--.card:hover {-->
+<!--  transform: translateY(-5px);-->
+<!--  box-shadow: 0 12px 30px rgba(228, 81, 254, 0.3);-->
+<!--}-->
+
+<!--.card img {-->
+<!--  width: 100%;-->
+<!--  height: 180px;-->
+<!--  object-fit: cover;-->
+<!--}-->
+
+<!--.card-content {-->
+<!--  padding: 16px;-->
+<!--  text-align: center;-->
+<!--}-->
+
+<!--.card-title {-->
+<!--  font-size: 22px;-->
+<!--  font-weight: bold;-->
+<!--  margin: 8px 0;-->
+<!--  color: #e451fe;-->
+<!--}-->
+
+<!--.card-author {-->
+<!--  display: flex;-->
+<!--  justify-content: center;-->
+<!--  align-items: center;-->
+<!--  background-color: #f0e5ff;-->
+<!--  color: #e451fe;-->
+<!--  font-size: 14px;-->
+<!--  font-weight: bold;-->
+<!--  padding: 8px 12px;-->
+<!--  margin: 12px auto;-->
+<!--  width: fit-content;-->
+<!--  border-radius: 16px;-->
+<!--  box-shadow: 0 4px 10px rgba(228, 81, 254, 0.2);-->
+<!--  transition: transform 0.3s ease;-->
+<!--}-->
+
+<!--.card-author:hover {-->
+<!--  transform: scale(1.05);-->
+<!--}-->
+
+<!--.card-text {-->
+<!--  font-size: 16px;-->
+<!--  color: #555555;-->
+<!--  margin: 8px 0 0;-->
+<!--}-->
+
+<!--.card-title::after {-->
+<!--  content: "";-->
+<!--  display: block;-->
+<!--  width: 60px;-->
+<!--  height: 3px;-->
+<!--  background-color: #e451fe;-->
+<!--  margin: 8px auto;-->
+<!--  transition: width 0.3s ease;-->
+<!--}-->
+
+<!--.card:hover .card-title::after {-->
+<!--  width: 80px;-->
+<!--}-->
+
+
+
+
+
+
+
+
+
+
+			  <style>
+
+
+    .place-container {
+      padding: 15px;
+      max-width: 1270px;
+      width: 100%;
+      background-color: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .place-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .place-image {
+      position: relative;
+      height: 300px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .place-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .place-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .place-details {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .place-details span {
+      display: block;
+      margin-top: 5px;
+    }
+
+    .place-map {
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .place-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom:10px;
+
+    }
+
+    .author-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .author-info img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .author-info a {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .favorite-button {
+      background-color: #e451fe;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .favorite-button:hover {
+      background-color: #d13ae2;
+      transform: scale(1.05);
+    }
+
+    .favorite-button:active {
+      background-color: #b02bc9;
+      transform: scale(1);
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+      .place-title {
+        font-size: 20px;
+      }
+
+      .place-details {
+        font-size: 14px;
+      }
+
+      .favorite-button {
+        font-size: 12px;
+        padding: 8px 16px;
+      }
+
+      .author-info span {
+        font-size: 14px;
+      }
+
+
+    }
+
+    @media (max-width: 480px) {
+      .place-container {
+        padding: 15px;
+      }
+
+      .place-title {
+        font-size: 18px;
+      }
+
+      .place-details {
+        font-size: 14px;
+      }
+
+      .favorite-button {
+        font-size: 12px;
+        padding: 8px 16px;
+      }
+
+
+    }
+  </style>
+
+              <div class="place-container">
+      <div class="place-footer">
+        <div class="author-info">
+          <img src="https://via.placeholder.com/40" alt="Author Avatar">
+          <a href="{% url 'profile' post.company_name.profile.id %}">{{ post.company_name.username }}</a>
+        </div>
+        {% if not in_fav %}
+			<a class="favorite-button" href="{% url 'fav_post' post.slug %}">Добавить в избранное</a>
+			{% else %}
+			<a class="favorite-button" href="{% url 'fav_post' post.slug %}">Убрать из избранного</a>
+			{% endif %}
+
+    </div>
+    <div class="place-image" style="background-image: url('{{ post.photo.url }}');"></div>
+    <div class="place-content">
+      <h3 class="place-title">{{ post.title }}</h3>
+      <div class="place-details">
+        <span>{{ post.content }}</span>
+        <span><strong>Телефон:</strong>   {{ post.phone }}</span>
+        <span><strong>Адрес:</strong>   {{ post.address }}</span>
+        <span><strong>Станция метро:</strong>   м.{{ post.metro }}</span>
+      </div>
+        <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+
+  <div class="place-map" id="map_{{ post.pk }}"></div> <!-- Новый контейнер для карты -->
+  <script>
+    ymaps.ready(function () {
+      var map = new ymaps.Map("map_{{ post.pk }}", { // Используем map2 вместо map
+        center: [{{ post.latitude }},  {{ post.longitude }}], // Центр карты (широта, долгота)
+        zoom: 15 // Уровень масштабирования
+      });
+
+      // Добавление метки
+      var placemark = new ymaps.Placemark([{{ post.latitude }},  {{ post.longitude }}], {
+        hintContent: 'Метка',
+        balloonContent: 'Координаты: {{ post.latitude }},  {{ post.longitude }}'
+      });
+
+      map.geoObjects.add(placemark);
+    });
+  </script>
+<!--      <div class="place-footer">-->
+<!--        <div class="author-info">-->
+<!--          <img src="https://via.placeholder.com/40" alt="Author Avatar">-->
+<!--          <a href="{% url 'profile' post.company_name.profile.id %}">{{ post.company_name.username }}</a>-->
+<!--        </div>-->
+<!--        {% if not in_fav %}-->
+<!--			<a class="favorite-button" href="{% url 'fav_post' post.slug %}">Добавить в избранное</a>-->
+<!--			{% else %}-->
+<!--			<a class="favorite-button" href="{% url 'fav_post' post.slug %}">Убрать из избранного</a>-->
+<!--			{% endif %}-->
+
+<!--    </div>-->
+  </div>
+<!--			<div class="post__card">-->
+<!--				{% if post.company_name.profile.id %}-->
+<!--				<div class="new__author">-->
+<!--					<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">-->
+<!--					<a href="{% url 'profile' post.company_name.profile.id %}" class="new__author-link">{{ post.company_name.username }}</a>-->
+<!--				{% endif %}-->
+<!--				</div>-->
+<!--				{% if post.photo %}-->
+<!--				<div class="new__photo"><a href="" class="new__photo-link"><img src="{{ post.photo.url }}" alt=""  class="new__photo-pic-detail"></a></div>-->
+<!--				{% endif %}-->
+<!--				<div class="new__info-container">-->
+<!--					<div class="new__title"><span>{{ post.title }}</span></div>-->
+<!--					<div class="new__content2">-->
+<!--						{{ post.content }}-->
+<!--					</div>-->
+<!--					<div class="new__subcontent">-->
+<!--						{{ post.phone }}-->
+<!--					</div>-->
+<!--					<div class="new__subcontent">-->
+<!--						{{ post.address }}-->
+<!--					</div>-->
+
+
+<!--				</div>-->
+<!--				<ul class="action__menu">-->
+<!--					<li class="action__item purple_bc">-->
+<!--						{% if not in_fav %}-->
+<!--						<a href="{% url 'fav_post' post.slug %}" class="action__link white_bc">Добавить в избранное</a>-->
+<!--						{% else %}-->
+<!--						<a href="{% url 'fav_post' post.slug %}" class="action__link white_bc">Убрать из избранного</a>-->
+<!--						{% endif %}-->
+<!--					</li>-->
+<!--					<li class="action__item purple_bc"><a href="{% url 'add_comment' post.id %}" class="action__link white_bc">Прокомментировать</a></li>-->
+
+<!--				</ul>-->
+
+<!--			</div>-->
+
+
+<!--			<div class="comments__container">-->
+<!--					<div class="article__comments-block">-->
+<!--						<h3 class="comments__title">Комментарии</h3>-->
+<!--						<br>-->
+<!--						<div class="comments__body">-->
+<!--						{% if not post.comments.all %}-->
+<!--							{% if user.is_authenticated %}-->
+<!--							<span class="no_comments">Нет комментариев</span>-->
+<!--							<br>-->
+<!--							<br>-->
+<!--							<-->
+
+<!--							{% else %}-->
+<!--								<div class="no_comments">Регистрируйся, чтобы оставлять комментарии</div>-->
+<!--								<br>-->
+
+<!--								<a href="{% url 'login' %}" class="add_comment-link">Войти</a> или <a href="{% url 'user_registration' %}" class="add_comment-link">Зарегистрироваться</a>-->
+<!--							{% endif %}-->
+<!--						{% else %}-->
+<!--							{% if user.is_authenticated %}-->
+
+<!--							{% else %}-->
+<!--								<div class="no_comments">Регистрируйся, чтобы оставлять комментарии</div>-->
+<!--								<br>-->
+<!--							<br>-->
+<!--								<a href="{% url 'login' %}" class="add_comment-link">Войти</a> или <a href="{% url 'user_registration' %}" class="add_comment-link">Зарегистрироваться</a>-->
+<!--								<br>-->
+<!--							{% endif %}-->
+<!--							{% for comment in post.comments.all %}-->
+<!--								{% if comment.comment_author.id == user.id %}-->
+<!--									{% if comment.comment_author.profile.profile_pic %}-->
+<!--								<div class="comment__block">-->
+<!--									<div class="comment__author-container">-->
+<!--										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>-->
+
+<!--									</div>-->
+<!--									<div class="comment__content">{{ comment.body }}</div>-->
+<!--									<div class="comment__data">-->
+<!--										<span class="comment__date">{{ comment.date_added }}</span>-->
+<!--										<a href="{% url 'delete_comment' comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--									{% else %}-->
+<!--								<div class="comment__block">-->
+<!--									<div class="comment__author-container">-->
+<!--										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'sforum/images/img/user profile image.jpg' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>-->
+
+<!--									</div>-->
+<!--									<div class="comment__content">{{ comment.body }}</div>-->
+<!--									<div class="comment__data">-->
+<!--										<span class="comment__date">{{ comment.date_added }}</span><a href="{% url 'delete_comment' comment.id %}" class="del-link"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--									{% endif %}-->
+<!--								{% else %}-->
+<!--									{% if comment.comment_author.profile.profile_pic %}-->
+<!--								<div class="comment__block">-->
+<!--									<div class="comment__author-container">-->
+<!--										<span class="comment__username"><img class="comment__author-thumb" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>-->
+<!--									</div>-->
+<!--									<div class="comment__content">{{ comment.body }}</div>-->
+<!--									<span class="comment__date">{{ comment.date_added }}</span>-->
+<!--								</div>-->
+<!--									{% else %}-->
+<!--								<div class="comment__block">-->
+<!--									<div class="comment__author-container">-->
+<!--										<span class="comment__username"><img class="comment__author-thumb" src="{% static 'xforum/images/img/user profile image.jpg' %}" alt="" width="50" height="50"></span><span class="comment__username">{{ comment.comment_author.username }}</span>-->
+<!--									</div>-->
+<!--									<div class="comment__content">{{ comment.body }}</div>-->
+<!--									<span class="comment__date">{{ comment.date_added }}</span>-->
+<!--								</div>-->
+<!--									{% endif %}-->
+<!--								{% endif %}-->
+<!--							{% endfor %}-->
+<!--						{% endif %}-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+
+		</div>
+
+
+
+
+
+//ymaps.ready(init);
+//
+//function init() {
+//    var geolocation = ymaps.geolocation,
+//        myMap = new ymaps.Map('map', {
+//            center: [55.751574, 37.573856], // начальный центр карты
+//            zoom: 10, // начальный уровень масштабирования
+//            controls: ['geolocationControl', 'zoomControl'] // добавляем стандартный контроль зума
+//        }, {
+//            searchControlProvider: 'yandex#search'
+//        });
+//
+//    var myGeoObjects = []; // Массив для объектов компании
+//    var myEventObjects = []; // Массив для объектов событий
+//
+//    // Загрузка данных компаний
+//    $.getJSON("/company.json", function(json) {
+//        for (i = 0; i < json.length; i++) {
+//            var myPlacemark = new ymaps.Placemark(
+//                [json[i].latitude, json[i].longitude], {
+//                    balloonContentHeader: '<a class="js_map_link" href="show_post/{0}">'.f(json[i].slug) + json[i].title + '</a><br><span class="description">' + json[i].address + '</span>',
+//                    balloonContentBody: '<span class="description">' + json[i].cat + '</span>',
+//                    balloonContentFooter: '<a href="tel:' + json[i].phone + '">' + json[i].phone + '</a><br><div class="description">' + "м." + json[i].metro + '</div>',
+//                }, {
+//                    iconColor: '#e451fe', // Цвет для компаний
+//                }
+//            );
+//            myGeoObjects.push(myPlacemark); // Добавляем метку компании в массив
+//        }
+//
+//        // Создаем кластер для компаний
+//        var clusterer = new ymaps.Clusterer({
+//            preset: 'islands#invertedPinkClusterIcons',
+//        });
+//
+//        clusterer.options.set({ gridSize: 100, minClusterSize: 2, synchAdd: true });
+//        clusterer.add(myGeoObjects); // Добавляем компании в кластер
+//        myMap.geoObjects.add(clusterer); // Добавляем кластер на карту
+//    }).fail(function(jqXHR) {
+//        if (jqXHR.status == 404) {
+//            console.log("404 Not Found");
+//        } else {
+//            console.log("Other non-handled error type");
+//        }
+//    });
+//
+//    // Загрузка данных событий
+//    $.getJSON("/events.json", function(json) {
+//        for (i = 0; i < json.length; i++) {
+//            var myPlacemark = new ymaps.Placemark(
+//                [json[i].latitude, json[i].longitude], {
+//                    balloonContentHeader: '<a class="js_map_link" href="show_event/{0}">'.f(json[i].slug) + json[i].title + '</a>',
+//                    balloonContentBody: '<div class="description">' + json[i].content + '</div>',
+//                }, {
+//                    iconColor: '#1c111c', // Цвет для событий (например, красный)
+//                }
+//            );
+//            myEventObjects.push(myPlacemark); // Добавляем метку события в массив
+//        }
+//
+//        // Создаем кластер для событий
+//        var eventClusterer = new ymaps.Clusterer({
+//            preset: 'islands#invertedBlackClusterIcons',
+//        });
+//
+//        eventClusterer.options.set({ gridSize: 100, minClusterSize: 2, synchAdd: true });
+//        eventClusterer.add(myEventObjects); // Добавляем события в кластер
+//        myMap.geoObjects.add(eventClusterer); // Добавляем кластер на карту
+//    }).fail(function(jqXHR) {
+//        if (jqXHR.status == 404) {
+//            console.log("404 Not Found");
+//        } else {
+//            console.log("Other non-handled error type");
+//        }
+//    });
+//
+//    // Геолокация
+//    geolocation.get({
+//        provider: 'browser',
+//        mapStateAutoApply: true
+//    }).then(function(result) {
+//        result.geoObjects.options.set('preset', 'islands#violetCircleIcon');
+//        result.geoObjects.get(0).properties.set({
+//            balloonContentBody: 'Мое местоположение'
+//        });
+//        myMap.geoObjects.add(result.geoObjects);
+//    });
+//
+//    // Добавление контроля масштабирования
+//    myMap.controls.add('zoomControl', {
+//        size: 'small', // Маленький размер для управления масштабом
+//        float: 'none', // Контрол будет располагаться внутри карты, а не сбоку
+//        position: { top: 10, left: 10 } // Позиция на карте
+//    });
+//}
+//
+//// Строка форматирования
+//String.prototype.format = String.prototype.f = function() {
+//    var args = arguments;
+//    return this.replace(/\{(\d+)\}/g, function(m, n) {
+//        return args[n] ? args[n] : m;
+//    });
+//};
+
+
+
+
+
+
+
+
+
+<!--  <div class="news-container">-->
+<!--	  <div class="news-author">-->
+<!--          {% if new.company_name.profile.profile_pic %}-->
+<!--            <img class="author-avatar" src="{{ new.company_name.profile.profile_pic.url }}" alt="" >-->
+<!--            {% else %}-->
+<!--            <img class="author-avatar" src="{% static 'sforum/images/img/img_28.png' %}" alt="" >-->
+<!--            {% endif %}-->
+<!--          <div class="author-details">-->
+<!--            <a href="{% url 'profile' new.company_name.profile.id %}" class="author-name">{{ new.company_name.username }}</a>-->
+<!--            <span class="publish-date">{{ new.date }}</span>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--    <div class="news-image" style="background-image: url('{{ new.photo.url }}');"></div>-->
+<!--    <div class="news-content">-->
+<!--      <h3 class="news-title">{{ new.title }}</h3>-->
+<!--      <p class="news-description">-->
+<!--        {{ new.content }}-->
+<!--      </p>-->
+<!--		<div class="card-footer">-->
+<!--                &lt;!&ndash; Иконки лайков и комментариев &ndash;&gt;-->
+<!--            {% if user.is_authenticated %}-->
+<!--                <div class="card-icons">-->
+<!--                    <div class="card-icons-block" style = "" ><span class="card-icons-span" style="">14</span><a href="#"><i class="fas fa-thumbs-up"></i></a></div>-->
+<!--                    <div class="card-icons-block" style = "" ><span class="card-icons-span" style="">14</span><a href="{% url 'add_news_comment' new.id %}"><i class="fas fa-comment-dots"></i></a></div>-->
+<!--                </div>-->
+<!--            {% else %}-->
+<!--            <div class="card-icons">-->
+<!--                <div class="card-icons-block" style = "" ><span class="card-icons-span" style="">14</span><a href="{% url 'login' %}"><i class="fas fa-thumbs-up"></i></a></div>-->
+<!--                <div class="card-icons-block" style = "" ><span class="card-icons-span" style="">14</span><a href="{% url 'login' %}"><i class="fas fa-comment-dots"></i></a></div>-->
+<!--                </div>-->
+<!--            {% endif %}-->
+
+<!--                &lt;!&ndash; Блок с кнопкой "Поделиться" &ndash;&gt;-->
+<!--                <div class="card-share">-->
+<!--                    <div class="share-button" onclick="shareContent('{{ n.get_absolute_url }}')">-->
+<!--                        <span>Поделиться</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--&lt;!&ndash;      <div class="news-footer">&ndash;&gt;-->
+<!--&lt;!&ndash;		  <div class="news-author">&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="author-avatar">А</div>&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="author-details">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a href="{% url 'profile' new.company_name.profile.id %}" class="author-name">{{ new.company_name.username }}</a>&ndash;&gt;-->
+<!--&lt;!&ndash;            <span class="publish-date">{{ new.date }}</span>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;		<a href="{% url 'add_news_comment' new.id %}" class="comment-button">Прокомментировать</a>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--    </div>-->
+
+<!--		</div></div>-->
+
+
+
+
+server {
+    listen 80;
+    server_name 141.8.193.4; # здесь прописать или IP-адрес или доменное имя сервера
+    access_log  /var/log/nginx/example.log;
+
+    location /static/ {
+        root /home/andrey/sfera_production/sphera/sphera;
+        expires 30d;
+    }
+
+    location /media/ {
+        root /home/andrey/sfera_production/sphera/sphera;
+        expires 30d;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $server_name;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+req txt
+sgiref==3.7.2
+certifi==2023.5.7
+cffi==1.15.1
+charset-normalizer==3.2.0
+cryptography==41.0.2
+defusedxml==0.7.1
+Django==4.2.2
+django-autoslug==1.9.9
+django-autoslug-field==0.2.3
+django-braces==1.15.0
+django-phonenumber-field==7.1.0
+django-templated-mail==1.1.1
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.2.2
+djoser==2.2.0
+idna==3.4
+oauthlib==3.2.2
+phonenumbers==8.13.15
+Pillow==9.5.0
+pycparser==2.21
+PyJWT==2.7.0
+python3-openid==3.2.0
+pytz==2023.3
+requests==2.31.0
+requests-oauthlib==1.3.1
+social-auth-app-django==5.2.0
+social-auth-core==4.4.2
+sqlparse==0.4.4
+typing_extensions==4.6.3
+urllib3==2.0.3

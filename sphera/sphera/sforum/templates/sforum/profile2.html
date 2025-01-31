@@ -1,0 +1,137 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% load sforum_tags %}
+
+
+{% block content %}
+
+<main class="main">
+    <div class="container">
+        <div class="profile__base_container">
+            <div class="profile__base-block">
+                <div class="profile__info-block">
+                    {% if user.profile.id == page_user.id %}
+						<h3 class="page__venues-title"><a href="{% url 'home' %}" class="page__venues_link">ПРОФИЛЬ {{ page_user.user.username }}</a></h3>
+                    {% else %}
+                    <h3 class="profile__username">ПРОФИЛЬ {{ page_user.user.username }}</h3>
+
+                    {% endif %}
+
+                </div>
+                <div class="profile__data-block">
+                    <div class="profile__image-block">
+                        {% if page_user.profile_pic %}
+                        <img src="{{ page_user.profile_pic.url }}" alt="" class="profile__pic">
+                        {% else %}
+                        <img src="{% static 'sforum/images/img/img_28.png' %}" alt="" class="profile__pic">
+                        {% endif %}
+                    </div>
+                    <div class="about__user">
+                        <div class="user_profile-body">
+                            <div class="profile__user-name">{{ page_user.user.username }}</div>
+                            <div class="profile__user-email">{{ page_user.user.email }}</div>
+
+                            <ul class="profile_user-data">
+                                {% if page_user.instagram_url %}
+                                <li class="profile_user-item"><a class="profile__net-link" href="{{ page_user.instagram_url }}"><img src="{% static 'sforum/images/img/instagram-pic.svg' %}" alt=""></a></li>
+                                {% endif %}
+                                {% if page_user.tg_url %}
+                                <li class="profile_user-item"><a class="profile__net-link" href="{{ page_user.tg_url }}"><img
+                                        src="{% static 'sforum/images/img/telegram-pic.svg' %}" alt=""></a></li>
+                                {% endif %}
+                                {% if page_user.vk_url %}
+                                <li class="profile_user-item"><a class="profile__net-link" href="{{ page_user.vk_url }}"><img src="{% static 'sforum/images/img/vk-pic.svg' %}" alt=""></a></li>
+                                {% endif %}
+                                {% if page_user.web_site_url %}
+                                <li class="profile_user-item"><a class="profile__net-link" href="{{ page_user.web_site_url }}"><img
+                                        src="{% static 'sforum/images/img/telegram-pic.svg' %}" alt=""></a></li>
+                                {% endif %}
+                            </ul>
+
+
+                            <div class="profile-bio">
+                                <div class="user-bio">О себе</div>
+                                {{ page_user.bio }}
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <ul class="action__menu">
+                        {% if user.profile.id == page_user.id %}
+                        <li class="action__item purple_bc"><a class="action__link white_c" href="{% url 'update_profile' user.profile.id %}">РЕДАКТИРОВАТЬ</a></li>
+                        <li class="action__item purple_bc"><a  class="action__link white_c" href="{% url 'delete_profile' user.profile.id %}">УДАЛИТЬ</a></li>
+                        <li class="action__item purple_bc"><a class="action__link white_c" href="{% url 'logout' %}">ВЫЙТИ</a></li>
+                        {% endif %}
+                    </ul>
+
+            </div>
+            {% if request.user|has_group:"Компания" %}
+            <div class="profile__content-block">
+
+                <div class="page__venues_container">
+                    <div class="page__venues-block">
+						<h3 class="page__venues-title"><a href="{% url 'home' %}" class="page__venues_link">МОИ НОВОСТИ</a></h3>
+					</div>
+                    <div class="news__container">
+                       {% for n in page_user_news %}
+
+                        <div class="new">
+						{% if n.photo %}
+						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>
+						{% endif %}
+						<div class="new__info-container">
+							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>
+						</div>
+						<ul class="action__menu">
+							{% if user.id == n.company_name.id %}
+							<li class="action__item purple_bc"><a href="{% url 'update_new' n.slug %}" class="action__link white_c">Редактировать</a></li>
+							<li class="action__item purple_bc"><a href="{% url 'delete_new' n.slug %}" class="action__link white_c">Удалить</a></li>
+							{% endif %}
+						</ul>
+					</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+
+                <div class="page__venues_container">
+                    <div class="page__venues-block">
+						<h3 class="page__venues-title"><a href="{% url 'home' %}" class="page__venues_link">МОИ ЗАВЕДЕНИЯ</a></h3>
+					</div>
+                    <div class="news__container">
+                        {% for n in page_user_venues %}
+
+                        <div class="new">
+						{% if n.photo %}
+						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>
+						{% endif %}
+						<div class="new__info-container">
+							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>
+							<div class="metro__block">м. {{ n.metro }}</div>
+<!--							<div class="address__block">{{ n.address }}</div>-->
+							<span class="new__category">{{ n.cat }}</span>
+
+
+<!--							<div class="new__data">-->
+<!--								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>-->
+<!--							</div>-->
+						</div>
+						<ul class="action__menu">
+							{% if user.id == n.company_name.id %}
+							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>
+							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>
+							{% endif %}
+						</ul>
+					</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

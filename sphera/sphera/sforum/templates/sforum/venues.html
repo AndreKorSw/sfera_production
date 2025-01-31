@@ -1,0 +1,101 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% load sforum_tags %}
+
+{% block content %}
+<main class="main">
+	<div class="container">
+		<h1 class="sp-title">МЕСТА</h1>
+		<div class="filter-container">
+    <div class="filter-buttons">
+      <!-- Основные кнопки -->
+	    {% for c in cats %}
+		{% if cat_selected == c.slug %}
+        <a class="filter-button">{{ c.name }}</a>
+		{% else %}
+		<a href="{{ c.get_absolute_url }}" class="filter-button">{{ c.name }}</a>
+		{% endif %}
+		{% endfor %}
+      <!-- Фиолетовые кнопки -->
+
+
+
+<!--		<a class="filter-button filter-highlight" href="#" title="Сброс сортировки" onclick="document.getElementById('sortProductById').submit();">СБРОС</a></li>-->
+		<a href="{% url 'show_venues' %}" class="filter-button filter-highlight">ВСЕ</a>
+		<a class="filter-button filter-highlight" href="#" title="Сброс сортировки" onclick="document.getElementById('sortProductByDate').submit();">НОВЫЕ</a>
+		<a class="filter-button filter-highlight" href="#" title="Сброс сортировки" onclick="document.getElementById('sortProductByDate2').submit();">СТАРЫЕ</a>
+		<a class="filter-button filter-highlight" href="#" title="Сброс сортировки" onclick="document.getElementById('sortProductByMetro').submit();">МЕТРО</a>
+		<form action="" method="get" id="sortProductById">
+			<input type="hidden" name="orderby" value="id" />
+		</form>
+		<form action="" method="get" id="sortProductByDate">
+			<input type="hidden" name="orderby" value="-time_created" />
+		</form>
+		<form action="" method="get" id="sortProductByDate2">
+			<input type="hidden" name="orderby" value="time_created" />
+		</form>
+		<form action="" method="get" id="sortProductByMetro">
+			<input type="hidden" name="orderby" value="metro" />
+		</form>
+    </div>
+  </div>
+	<br>
+
+<!--		<section class="categories">-->
+<!--			<div class="category__menu">-->
+<!--				<ul class="category__list">-->
+<!--					<li class="category__item purple_box_shadow"><a href="{% url 'show_venues' %}" class="category__link">ВСЕ</a></li>-->
+
+<!--					{% for c in cats %}-->
+<!--						{% if cat_selected == c.slug %}-->
+<!--							<li class="category__item">{{ c.name }}</li>-->
+<!--						{% else %}-->
+<!--							<li class="category__item purple_box_shadow"><a href="{{ c.get_absolute_url }}" class="category__link">{{ c.name }}</a></li>-->
+<!--						{% endif %}-->
+<!--					{% endfor %}-->
+
+<!--				</ul>-->
+<!--				<form action="" method="get" id="sortProductById">-->
+<!--					<input type="hidden" name="orderby" value="id" />-->
+<!--				</form>-->
+<!--				<form action="" method="get" id="sortProductByDate">-->
+<!--					<input type="hidden" name="orderby" value="-time_created" />-->
+<!--				</form>-->
+<!--				<form action="" method="get" id="sortProductByDate2">-->
+<!--					<input type="hidden" name="orderby" value="time_created" />-->
+<!--				</form>-->
+<!--				<form action="" method="get" id="sortProductByMetro">-->
+<!--					<input type="hidden" name="orderby" value="metro" />-->
+<!--				</form>-->
+
+<!--				<ul class="filter__sublist">-->
+<!--					<li class="category__item-filter purple_box_shadow"><a class="category__link-filter" href="#" title="Сброс сортировки" onclick="document.getElementById('sortProductById').submit();">Сброс</a></li>-->
+<!--					<li class="category__item-filter purple_box_shadow"><a  class="category__link-filter" href="#" title="Сброс сортировки" onclick="document.getElementById('sortProductByDate').submit();">Новые</a></li>-->
+<!--					<li class="category__item-filter purple_box_shadow"><a class="category__link-filter" href="#" title="Сброс сортировки" onclick="document.getElementById('sortProductByDate2').submit();">Старые</a></li>-->
+<!--					<li class="category__item-filter purple_box_shadow"><a class="category__link-filter" href="#" title="Сброс сортировки" onclick="document.getElementById('sortProductByMetro').submit();">Метро</a></li>-->
+<!--				</ul>-->
+
+
+<!--			</div>-->
+<!--		</section>-->
+
+        <section class="news">
+    <div class="container2">
+        <div class="venues2">
+			{% for n in posts %}
+            <div class="venue2">
+				<a href="{{ n.get_absolute_url }}" ><img src="{{ n.photo.url }}" alt=""></a>
+                <div class="venue-content">
+					<a href="{{ n.get_absolute_url }}" ><div class="venue-title">{{ n.title }}</div></a>
+                    <div class="venue-location">м.{{ n.metro }}</div>
+                    <div class="venue-type">{{ n.cat }}</div>
+                </div>
+            </div>
+			{% endfor %}
+
+        </div></div>
+			</section>
+    </div>
+</main>
+
+{% endblock %}

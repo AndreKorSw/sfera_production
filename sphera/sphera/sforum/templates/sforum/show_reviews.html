@@ -1,0 +1,58 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% load sforum_tags %}
+
+{% block content %}
+<main class="main">
+
+<section class="events">
+			<div class="container">
+				<h1 class="sp-title">ПОСЛЕДНИЕ СОБЫТИЯ</h1>
+				<div class="slider-container">
+    <div class="slider-wrapper">
+		{% for event in events %}
+      <div class="card1">
+        <a class="new__photo-link" href="{{ event.get_absolute_url }}"><img src="{{ event.photo.url }}" alt="Изображение 1"></a>
+		<a class="new__photo-link" href="{{ event.get_absolute_url }}"><h2>{{ event.title }}</h2></a>
+        <p>{{ event.content }}</p>
+          <div class="city-buttons">
+              <button>Москва</button>
+			  <button>Актуальное</button>
+
+          </div>
+      </div>
+		{% endfor %}
+    </div>
+
+    <button class="slider-button slider-button-prev">&#10094;</button>
+    <button class="slider-button slider-button-next">&#10095;</button>
+  </div>
+				<br>
+
+
+				<h1 class="sp-title" style="font-size:36px;">EVENTS IN MSK</h1>
+				<div class="button-container">
+					<a href="{% url 'show_reviews_for_life' %}">FOR LIFE</a>
+					<div class="divider"></div>
+					<a href="{% url 'show_reviews_fire_fun' %}">FIRE FUN</a>
+				</div>
+				<br>
+		<div class="container4">
+			{% for n in reviews %}
+			<div class="card4">
+			  <img src="{{ n.photo.url }}" alt="">
+			  <div class="card-content4">
+				<div class="card-date4">{{ n.time_created }}</div>
+				<div class="card-title4"><a href="{{ n.get_absolute_url }}">{{ n.title }}</a></div>
+			  </div>
+			</div>
+			{% endfor %}
+	  	</div>
+
+			</div>
+
+		</section>
+	<script src="{% static 'sforum/js/script4.js' %}" type=""></script>
+</main>
+
+{% endblock %}

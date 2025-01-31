@@ -1,0 +1,243 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% load sforum_tags %}
+
+
+{% block content %}
+
+<main class="main">
+    <div class="container">
+
+        <div class="profile__base_container">
+            <div class="profile__base-block">
+                <div class="profile__info-block">
+                    {% if user.profile.id == page_user.id %}
+                    <h1 class="sp-title">МОЙ ПРОФИЛЬ</h1>
+                    {% else %}
+                    <h1 class="sp-title">ПРОФИЛЬ {{ page_user.user.username }}</h1>
+                    {% endif %}
+
+                </div>
+
+
+    <div class="container_profile">
+        <div class="profile-header">
+            {% if page_user.profile_pic %}
+            <img src="{{ page_user.profile_pic.url }}" alt="Аватар" class="avatar">
+            {% else %}
+            <img src="{% static 'sforum/images/img/img_28.png' %}" alt="" class="avatar">
+            {% endif %}
+            <div class="info">
+                <h2>{{ page_user.user.username }}</h2>
+                {% if user.profile.id == page_user.id %}
+                <p>{{ page_user.user.email }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="social-links">
+            {% if page_user.tg_url %}
+            <a href="{{ page_user.tg_url }}">Telegram</a>
+            {% endif %}
+            {% if page_user.vk_url %}
+            <a href="{{ page_user.vk_url }}">ВКонтакте</a>
+            {% endif %}
+            {% if page_user.instagram_url %}
+            <a href="{{ page_user.instagram_url }}">Instagram</a>
+            {% endif %}
+            {% if page_user.web_site_url %}
+            <a href="{{ page_user.web_site_url }}">Сайт</a>
+            {% endif %}
+        </div>
+        <div class="profile-content">
+            {% if page_user.bio %}
+                {% if page_user.user|has_group:"Пользователь" %}
+                <h3>О пользователе</h3>
+                {% else %}
+                <h3>О компании</h3>
+                {% endif %}
+                <div class="words">
+                    {{ page_user.bio }}
+                </div>
+            {% else %}
+            <h3>О компании</h3>
+
+            <div class="words">
+                Информации пока что нет :( {{ page_user.bio }}
+            </div>
+            {% endif %}
+
+        </div>
+        <div class="news-gallery">
+            {% if  page_user.profile_pic_1 %}
+            <img class="gallery-image" src="{{ page_user.profile_pic_1.url }}" alt="Gallery Image" onclick="openFullscreen(this)">
+            {% endif %}
+            {% if  page_user.profile_pic_2 %}
+            <img class="gallery-image" src="{{ page_user.profile_pic_2.url }}" alt="Gallery Image" onclick="openFullscreen(this)">
+            {% endif %}
+            {% if  page_user.profile_pic_3 %}
+            <img class="gallery-image" src="{{ page_user.profile_pic_3.url }}" alt="Gallery Image" onclick="openFullscreen(this)">
+            {% endif %}
+            {% if page_user.profile_pic %}
+            <img class="gallery-image" src="{{ page_user.profile_pic.url }}" alt="Gallery Image" onclick="openFullscreen(this)">
+            {% endif %}
+        </div>
+    </div>
+<div id="fullscreen-overlay" class="fullscreen-overlay" onclick="closeFullscreen()">
+  <img id="fullscreen-image" class="fullscreen-image" src="" alt="Fullscreen Image">
+</div>
+            <script>
+                  function openFullscreen(img) {
+    document.getElementById('fullscreen-image').src = img.src;
+    document.getElementById('fullscreen-overlay').style.display = 'flex';
+  }
+
+  function closeFullscreen() {
+    document.getElementById('fullscreen-overlay').style.display = 'none';
+  }
+            </script>
+
+                {% if user.profile.id == page_user.id %}
+
+
+<div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn">НАСТРОЙКИ</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a class="action__link white_c" href="{% url 'update_profile' user.profile.id %}">РЕДАКТИРОВАТЬ ПРОФИЛЬ</a>
+<!--    <a  class="action__link white_c" href="{% url 'delete_profile' user.profile.id %}">УДАЛИТЬ ПРОФИЛЬ</a>-->
+    <a class="action__link white_c" href="{% url 'logout' %}">ВЫЙТИ</a>
+  </div>
+</div>
+
+{% endif %}
+
+            <div class="profile__content-block">
+                {% if not page_user.user|has_group:"Пользователь" %}
+                <div class="page__venues_container">
+                    {% if user.profile.id == page_user.id %}
+                    <h3 class="sp-title">МОИ МЕСТА</h3>
+                    {% else %}
+                    <h3 class="sp-title">МЕСТА {{ page_user.user.username }}</h3>
+                    {% endif %}
+                        <div class="container2">
+        <div class="venues2">
+			{% for n in page_user_venues %}
+            <div class="venue2">
+				<a href="{{ n.get_absolute_url }}" ><img src="{{ n.photo.url }}" alt=""></a>
+                <div class="venue-content">
+					<a href="{{ n.get_absolute_url }}" ><div class="venue-title">{{ n.title }}</div></a>
+                    <div class="venue-location">м.{{ n.metro }}</div>
+                    <div class="venue-type">{{ n.cat }}</div>
+                </div>
+                <ul class="action__menu">
+							{% if user.id == n.company_name.id %}
+							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>
+							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>
+							{% endif %}
+						</ul>
+            </div>
+
+			{% endfor %}
+
+        </div></div>
+
+                </div>
+                {% endif %}
+                <div class="page__venues_container">
+                    {% if user.profile.id == page_user.id %}
+                    <h3 class="sp-title">МОИ НОВОСТИ</h3>
+                    {% else %}
+                    <h3 class="sp-title">НОВОСТИ {{ page_user.user.username }}</h3>
+                    {% endif %}
+                      <div class="card-wrapper">
+    <div class="card-grid">
+		{% for n in page_user_news %}
+      <div class="card">
+		  <a href="{{ n.get_absolute_url }}" ><img src="{{ n.photo.url }}" alt=""></a>
+        <div class="card-content">
+			<a href="{{ n.get_absolute_url }}" class="new__photo-link"><div class="card-title">{{ n.title }}</div></a>
+			{% if n.company_name.profile.id %}
+          <a href="{% url 'profile' n.company_name.profile.id %}"><div class="card-author">Автор: {{ n.company_name.username }}</div></a>
+          {% endif %}
+            <div class="card-text">{{ n.content }}</div>
+            <div class="card-footer">
+                <!-- Иконки лайков и комментариев -->
+                <div class="card-icons">
+					<form action="{% url 'like_post' n.slug %}" method="POST">
+                  {% csrf_token %}
+
+                  {% if user.is_authenticated %}
+                    {% if liked %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ n.total_likes }}</span>
+						<button type="submit" name="post_id" value="{{ n.id }}" style="background: transparent; border: none; cursor: pointer;"><a href="#"><i class="fas fa-thumbs-up"></i></a></button>
+					</div>
+					{% else %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ n.total_likes }}</span>
+                    <button type="submit" name="post_id" value="{{ n.id }}" style="background: transparent; border: none; cursor: pointer;"><a href="#"><i class="fas fa-thumbs-up"></i></a></button></div>
+					{% endif %}
+				  {% else %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ n.total_likes }}</span>
+                    <a href="{% url 'login' %}"><i class="fas fa-thumbs-up"></i></a></div>
+				  {% endif %}
+					</form>
+				  {% if user.is_authenticated %}
+					<div class="card-icons-block"><span class="card-icons-span" >{{ n.news_comments.total_comments }}</span>
+                    <a href="/add_news_comment/{{ n.pk }}"><i class="fas fa-comment-dots"></i></a></div>
+				  {% else %}
+					<div class="card-icons-block"><span class="card-icons-span" >{{ n.news_comments.total_comments }}</span>
+                    <a href="{% url 'login' %}"><i class="fas fa-comment-dots"></i></a></div>
+				  {% endif %}
+
+
+                </div>
+
+                <!-- Блок с кнопкой "Поделиться" -->
+                <div class="card-share">
+                    <div class="share-button" onclick="shareContent('{{ n.get_absolute_url }}')">
+                        <span>Поделиться</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+          <ul class="action__menu">
+							{% if user.id == n.company_name.id %}
+							<li class="action__item purple_bc"><a href="{% url 'update_new' n.slug %}" class="action__link white_c">Редактировать</a></li>
+							<li class="action__item purple_bc"><a href="{% url 'delete_new' n.slug %}" class="action__link white_c">Удалить</a></li>
+							{% endif %}
+						</ul>
+      </div>
+		{% endfor %}
+
+  </div>
+
+  </div>
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</main>
+<script>
+/* Когда пользователь нажимает на кнопку, переключаться раскрывает содержимое */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+// Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+{% endblock %}

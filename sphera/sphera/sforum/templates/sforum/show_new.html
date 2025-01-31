@@ -1,0 +1,297 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% block form2 %}
+{% endblock form2 %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<main class="main">
+	<div class="container">
+		<div class="post__base_container">
+            <style>
+  .news-container {
+    max-width: 1270px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .news-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .news-image-wrapper {
+    align-items:center;
+    position: relative;
+    height: 400px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  /* Размытый фон */
+  .news-image-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('{{ new.photo.url }}');
+    background-size: cover;
+    background-position: center;
+    filter: blur(15px);
+    z-index: 1;
+  }
+
+  /* Картинка, которая будет отображаться поверх */
+  .news-image {
+    top: 13%;
+    position: relative;
+    display:block;
+    margin:0 auto;
+    z-index: 2;
+    width: 100%;
+    max-width: 600px; /* Ограничиваем максимальный размер */
+    height: 300px; /* Максимальная высота */
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .news-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .news-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .news-description {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .news-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+  }
+
+  .news-author {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e451fe;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .author-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .author-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .publish-date {
+    font-size: 12px;
+    color: #888;
+  }
+
+  .comment-button {
+    background-color: #e451fe;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .comment-button:hover {
+    background-color: #d13ae2;
+    transform: scale(1.05);
+  }
+
+  .comment-button:active {
+    background-color: #b02bc9;
+    transform: scale(1);
+  }
+
+  /* Адаптивность */
+  @media (max-width: 768px) {
+    .news-title {
+      font-size: 20px;
+    }
+
+    .news-description {
+      font-size: 14px;
+    }
+
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      font-size: 18px;
+    }
+
+    .author-name {
+      font-size: 18px;
+    }
+
+    .news-image-wrapper {
+      height: auto; /* Оставляем оригинальный размер изображения */
+    }
+  }
+
+  @media (max-width: 480px) {
+    .news-container {
+      padding: 15px;
+    }
+
+    .news-title {
+      font-size: 18px;
+    }
+
+    .news-description {
+      font-size: 14px;
+    }
+
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      font-size: 18px;
+    }
+
+    .author-name {
+      font-size: 18px;
+    }
+
+    .comment-button {
+      font-size: 12px;
+      padding: 8px 16px;
+    }
+  }
+</style>
+
+<div class="news-container">
+  <div class="news-author">
+    {% if new.company_name.profile.profile_pic %}
+      <img class="author-avatar" src="{{ new.company_name.profile.profile_pic.url }}" alt="">
+    {% else %}
+      <img class="author-avatar" src="{% static 'sforum/images/img/img_28.png' %}" alt="">
+    {% endif %}
+    <div class="author-details">
+      <a href="{% url 'profile' new.company_name.profile.id %}" class="author-name">{{ new.company_name.username }}</a>
+      <span class="publish-date">{{ new.date }}</span>
+    </div>
+  </div>
+
+  <!-- Новый блок для изображения -->
+  <div class="news-image-wrapper">
+    <img class="news-image" src="{{ new.photo.url }}" alt="News Image">
+  </div>
+
+
+
+
+  <div class="news-content">
+    <h3 class="news-title words">{{ new.title }}</h3>
+    <p class="news-description words">{{ new.content }}</p>
+
+    <div class="card-footer">
+        <div class="card-icons">
+					<form action="{% url 'like_post' new.slug %}" method="POST">
+                  {% csrf_token %}
+
+                  {% if user.is_authenticated %}
+                    {% if liked %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ new.total_likes }}</span>
+						<button type="submit" name="post_id" value="{{ new.id }}" style="background: transparent; border: none; cursor: pointer;"><a href="#"><i class="fas fa-thumbs-up"></i></a></button>
+					</div>
+					{% else %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ new.total_likes }}</span>
+                    <button type="submit" name="post_id" value="{{ new.id }}" style="background: transparent; border: none; cursor: pointer;"><a href="#"><i class="fas fa-thumbs-up"></i></a></button></div>
+					{% endif %}
+				  {% else %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ new.total_likes }}</span>
+                    <a href="{% url 'login' %}"><i class="fas fa-thumbs-up"></i></a></div>
+				  {% endif %}
+					</form>
+				  {% if user.is_authenticated %}
+					<div class="card-icons-block"><span class="card-icons-span" >{{ new.news_comments.total_comments }}</span>
+                    <a href="/add_news_comment/{{ new.pk }}"><i class="fas fa-comment-dots"></i></a></div>
+				  {% else %}
+					<div class="card-icons-block"><span class="card-icons-span" >{{ new.news_comments.total_comments }}</span>
+                    <a href="{% url 'login' %}"><i class="fas fa-comment-dots"></i></a></div>
+				  {% endif %}
+
+
+                </div>
+      <div class="card-share">
+        <div class="share-button" onclick="shareContent('{{ n.get_absolute_url }}')">
+          <span>Поделиться</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+	<br>
+
+
+		<div class="comments">
+						{% for comment in new.news_comments.all %}
+							<div class="comment">
+                                {% if comment.comment_author.profile.profile_pic %}
+								<img class="comment-avatar" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" >
+                                {% else %}
+                                <img class="comment-avatar" src="{% static 'sforum/images/img/img_28.png' %}" alt="" >
+                                {% endif %}
+								<div class="comment-content1">
+									<div class="comment-header">
+										<a href = "{% url 'profile' comment.comment_author.profile.id %}" class="comment-author">{{ comment.comment_author.username }}</a>
+										<time class="comment-time">{{ comment.date_added }}</time>
+									</div>
+									<p class="comment-text1">{{ comment.body }}</p>
+								</div>
+                                {% if comment.comment_author.id == user.id %}
+                                <a href="{% url 'delete_news_comment' comment.id %}" class="comment-delete"><img width="20" height="20" src="{% static 'sforum/images/img/trash.svg' %}" alt="" class="trash_thumb"></a>
+                                {% endif %}
+							</div>
+						{% endfor %}
+					</div>
+		</div>
+	</div>
+</main>
+{% endblock %}

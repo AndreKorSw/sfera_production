@@ -1,0 +1,44 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% load sforum_tags %}
+
+{% block content %}
+<main class="main">
+
+<section class="events">
+			<div class="container">
+				<div class="main__container">
+					<div class="ticker">
+  <div class="ticker__in">
+    <span class="ticker__item">#EVENTS IN MSK</span>
+    <span class="ticker__item">#FOR LIFE</span>
+    <span class="ticker__item">#EVENTS IN MSK</span>
+    <span class="ticker__item">#FOR LIFE</span>
+	<span class="ticker__item">#EVENTS IN MSK</span>
+    <span class="ticker__item">#FOR LIFE</span>
+    <span class="ticker__item">#EVENTS IN MSK</span>
+    <span class="ticker__item">#FOR LIFE</span>
+    <span class="ticker__item">#EVENTS IN MSK</span>
+    <span class="ticker__item">#FOR LIFE</span>
+  </div>
+</div>
+					<br>
+					<div class="container4">
+			{% for n in reviews %}
+						{% if n.event_option == 'FOR_LIFE' %}
+			<div class="card4">
+			  <img src="{{ n.photo.url }}" alt="">
+			  <div class="card-content4">
+				<div class="card-date4">{{ n.time_created }}</div>
+				<div class="card-title4"><a href="{{ n.get_absolute_url }}">{{ n.title }}</a></div>
+			  </div>
+			</div>
+						{% endif %}
+			{% endfor %}
+	  	</div>
+				</div>
+			</div>
+
+		</section>
+</main>
+{% endblock %}

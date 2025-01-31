@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+
+
+
+
+<head>
+	<title>Sphera</title>
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet"  href="{% static 'sforum/css/style.css' %}">
+	<meta name="viewport" content="width=device-width">
+</head>
+<body>
+	{% block mainmenu %}
+	<div class="wrapper">
+		<div class="header__top">
+			<a href="{% url 'home' %}" class="header__logo-link">Sphera</a>
+			<form class="search_form" method="POST" action="{% url 'search-venues' %}">
+				{% csrf_token %}
+				<input class="search__input" type="search" placeholder="Найти заведение . . ." name="searched">
+				<button  class="form__btn" type="submit"><img src="img/sphere_search.svg" alt="" class="search__logo-pic"></button>
+			</form>
+		</div>
+		<header class="header">
+			<div class="header__container">
+				<div class="header__burger">
+					<span></span>
+				</div>
+				<nav class="header__menu">
+
+					<ul class="header__list">
+						{% for m in menu %}
+						<li class="header__item"><a href="{% url m.url_name %}" class="header__link">{{ m.title }}</a></li>
+						{% endfor %}
+					</ul>
+
+				</nav>
+				<div class="sphere__logo">
+					<div class="logo__container"><a href="{% url 'home' %}" class="sphere__logo-link">Sphera</a></div>
+					<div class="user__info">
+						{% if request.user.is_authenticated %}
+						{% if request.user.profile.id %}
+							<span class="user__logo"><a href="{% url 'profile' user.profile.id %}" class="user__logo-link">{{ user.username }}</a> | <a href="{% url 'logout' %}" class="user__logo-link">Log Out</a></span>
+						{% else %}
+							<span class="user__logo"><a href="{% url 'create_profile' %}" class="user__logo-link">{{ user.username }}</a> | <a href="{% url 'logout' %}" class="user__logo-link">Log Out</a></span>
+						{% endif %}
+					{% else %}
+						<span class="user__logo"><a href="{% url 'user_registration' %}" class="user__logo-link">Sign In</a> | <a href="{% url 'login' %}" class="user__logo-link">Login</a></span>
+					{% endif%}
+					</div>
+				</div>
+			</div>
+
+		</header>
+
+{% block content %}
+
+{% endblock %}
+
+		<footer class="footer">
+			<div class="footer__container">
+				<div class="footer__menu">
+					<div class="footer__title">Аккаунт</div>
+					<ul class="footer__list">
+						<li class="footer__item"><a href="{% url 'home' %}" class="footer__link">Войти</a></li>
+						<li class="footer__item"><span class="or"> или </span></li>
+
+						<li class="footer__item"> <a href="" class="footer__link">Регистрация</a></li>
+					</ul>
+				</div>
+				<div class="footer__menu">
+					<div class="footer__title">Мы в соцсетях!</div>
+						<ul class="footer__list">
+							<li class="social__item"><a href="" class="social__link"><img src="img/telega.svg" alt="" class="social__icon"></a></li>
+							<li class="social__item"><a href="" class="social__link"><img src="img/yt.svg" alt="" class="social__icon"></a></li>
+							<li class="social__item"><a href="" class="social__link"><img src="img/vk.svg" alt="" class="social__icon"></a></li>
+							<li class="social__item"><a href="" class="social__link"><img src="img/twitter.svg" alt="" class="social__icon"></a></li>
+							<li class="social__item"><a href="" class="social__link"><img src="img/linkdin.svg" alt="" class="social__icon"></a></li>
+							<li class="social__item"><a href="" class="social__link"><img src="img/mail.svg" alt="" class="social__icon"></a></li>
+						</ul>
+
+				</div>
+				<div class="footer__menu">
+					<div class="footer__title">Партнерство</div>
+					<ul class="footer__list">
+						<li class="footer__item"><a href="" class="footer__link">Компаниям</a></li>
+						<li class="footer__item"><span class="or">и</span></li>
+						<li class="footer__item"> <a href="" class="footer__link">Пользователям</a></li>
+					</ul>
+				</div>
+			</div>
+		</footer>
+		<div class="footer__bottom">
+			<div class="bottom__menu">
+				<span class="bottom__span"> &#169; Sphera 2023</span>
+				<ul class="bottom__list">
+					<li class="bottom__item"><a href="" class="bottom__link">Конфиденциальность</a></li>
+					<li class="bottom__item"><a href="" class="bottom__link">Пользовательское соглашение</a></li>
+					<li class="bottom__item"><a href="" class="bottom__link">Cookies</a></li>
+
+				</ul>
+
+			</div>
+		</div>
+	</div>
+	<script src="https://api-maps.yandex.ru/2.1/?apikey=180f2065-90cc-4444-8777-d461d5f1ac8f&lang=ru_RU" type="text/javascript"></script>
+	<script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+	<script src="{% static 'sforum/js/script.js' %}" type=""></script>
+	<script src="{% static 'sforum/js/main.js' %}" type=""></script>
+{% endblock mainmenu %}
+</body>
+
+</html>
+

@@ -1,0 +1,224 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% load sforum_tags %}
+
+{% block content %}
+<main class="main">
+	<div class="container">
+		<h1 class="sp-title">НОВОСТИ</h1>
+        <section class="news">
+
+				<style>
+
+
+    .card-wrapper {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(228, 81, 254, 0.3);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 16px;
+      text-align: center;
+    }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 8px 0;
+      color: #e451fe;
+    }
+
+    .card-author {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0e5ff;
+      color: #e451fe;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 8px 12px;
+      margin: 12px auto;
+      width: fit-content;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(228, 81, 254, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .card-author:hover {
+      transform: scale(1.05);
+    }
+
+    .card-text {
+      font-size: 16px;
+      color: #555555;
+      margin: 8px 0 0;
+    }
+
+    .card-title::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 3px;
+      background-color: #e451fe;
+      margin: 8px auto;
+      transition: width 0.3s ease;
+    }
+
+    .card:hover .card-title::after {
+      width: 80px;
+    }
+  </style>
+  <div class="card-wrapper">
+    <div class="card-grid">
+		{% for n in news %}
+      <div class="card">
+		  <a href="{{ n.get_absolute_url }}" ><img src="{{ n.photo.url }}" alt=""></a>
+        <div class="card-content">
+			<a href="{{ n.get_absolute_url }}" class="new__photo-link"><div class="card-title">{{ n.title }}</div></a>
+			{% if n.company_name.profile.id %}
+          <a href="{% url 'profile' n.company_name.profile.id %}"><div class="card-author">Автор: {{ n.company_name.username }}</div></a>
+          {% endif %}
+			<div class="card-text">{{ n.content }}</div>
+            <div class="card-footer">
+
+
+                <!-- Иконки лайков и комментариев -->
+                <div class="card-icons">
+					<form action="{% url 'like_post' n.slug %}" method="POST">
+                  {% csrf_token %}
+
+                  {% if user.is_authenticated %}
+                    {% if liked %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ n.total_likes }}</span>
+						<button type="submit" name="post_id" value="{{ n.id }}" style="background: transparent; border: none; cursor: pointer;"><a href="#"><i class="fas fa-thumbs-up"></i></a></button>
+					</div>
+					{% else %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ n.total_likes }}</span>
+                    <button type="submit" name="post_id" value="{{ n.id }}" style="background: transparent; border: none; cursor: pointer;"><a href="#"><i class="fas fa-thumbs-up"></i></a></button></div>
+					{% endif %}
+				  {% else %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ n.total_likes }}</span>
+                    <a href="{% url 'login' %}"><i class="fas fa-thumbs-up"></i></a></div>
+				  {% endif %}
+					</form>
+				  {% if user.is_authenticated %}
+					<div class="card-icons-block"><span class="card-icons-span" >{{ n.news_comments.total_comments }}</span>
+                    <a href="/add_news_comment/{{ n.pk }}"><i class="fas fa-comment-dots"></i></a></div>
+				  {% else %}
+					<div class="card-icons-block"><span class="card-icons-span" >{{ n.news_comments.total_comments }}</span>
+                    <a href="{% url 'login' %}"><i class="fas fa-comment-dots"></i></a></div>
+				  {% endif %}
+
+
+                </div>
+
+                <!-- Блок с кнопкой "Поделиться" -->
+                <div class="card-share">
+                    <div class="share-button" onclick="shareContent('{{ n.get_absolute_url }}')">
+                        <span>Поделиться</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+        {% if n.news_comments.exists %}
+		<div class="comments">
+
+						<a href="{{ n.get_absolute_url }}" class = "comments-title"> Про {{ n.title }}</a>
+						{% for comment in n.news_comments.all|slice:":4" %}
+							<div class="comment">
+
+								{% if comment.comment_author.profile.profile_pic %}
+								<img class="comment-avatar" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" >
+                                {% else %}
+                                <img class="comment-avatar" src="{% static 'sforum/images/img/img_28.png' %}" alt="" >
+                                {% endif %}
+								<div class="comment-content">
+									<div class="comment-header">
+										<a href = "{% url 'profile' comment.comment_author.profile.id %}" class="comment-author">{{ comment.comment_author.username }}</a>
+										<time class="comment-time">{{ comment.date_added }}</time>
+									</div>
+									<p class="comment-text">{{ comment.body }}</p>
+								</div>
+							</div>
+						{% endfor %}
+
+					</div>
+		{% endif %}
+		{% endfor %}
+
+  </div>
+
+
+<!--					<div class="news__container">-->
+<!--						{% for n in news %}-->
+<!--						<div class="new">-->
+<!--						{% if n.company_name.profile.id %}-->
+<!--						<div class="new__author">-->
+<!--							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">-->
+<!--							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username }}</a>-->
+<!--						{% endif %}-->
+
+<!--						</div>-->
+<!--						{% if n.photo %}-->
+<!--						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>-->
+<!--						{% endif %}-->
+<!--						<div class="new__info-container">-->
+<!--							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>-->
+<!--&lt;!&ndash;							<div class="address__block">{{ n.address }}</div>&ndash;&gt;-->
+
+
+
+<!--&lt;!&ndash;							<div class="new__data">&ndash;&gt;-->
+<!--&lt;!&ndash;								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>&ndash;&gt;-->
+<!--&lt;!&ndash;							</div>&ndash;&gt;-->
+<!--						</div>-->
+<!--&lt;!&ndash;						<ul class="action__menu">&ndash;&gt;-->
+<!--&lt;!&ndash;							{% if user.id == n.company_name.id %}&ndash;&gt;-->
+<!--&lt;!&ndash;							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;							{% endif %}&ndash;&gt;-->
+<!--&lt;!&ndash;						</ul>&ndash;&gt;-->
+<!--					</div>-->
+<!--&lt;!&ndash;							<ul class="action__menu">&ndash;&gt;-->
+<!--&lt;!&ndash;								{% if user.id == n.company_name.id %}&ndash;&gt;-->
+<!--&lt;!&ndash;								<li class="action__item purple_bc"><a href="{% url 'update_new' n.slug %}" class="action__link white_c">Редактировать</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;								<li class="action__item purple_bc"><a href="{% url 'delete_new' n.slug %}" class="action__link white_c">Удалить</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;								{% endif %}&ndash;&gt;-->
+<!--&lt;!&ndash;							</ul>&ndash;&gt;-->
+
+<!--					{% endfor %}-->
+<!--				</div>-->
+
+  </div></div>
+			</section>
+    </div>
+</main>
+
+{% endblock %}

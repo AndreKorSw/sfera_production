@@ -1,0 +1,67 @@
+
+{% extends "sforum/base.html" %}
+{% load static %}
+
+{% block content %}
+<main class="main">
+	<div class="container">
+		<div class="main__container">
+			<section class = "add_banner"></section>
+			<section class = "telegram_banner"></section>
+
+			<section class="map1">
+				<h3 class="page__venues-title"><a href="{% url 'home' %}" class="page__venues_link">Заведения рядом</a></h3>
+				<div class="map__container">
+					<div class="map__search">
+						<form class="search_form" method="POST" action="{% url 'search-venues' %}">
+							{% csrf_token %}
+							<input class="map__search-input" type="search" placeholder="Поиск заведений" name="searched">
+							<button  class="map__search-icon" type="submit"><img width='26' height = '26' src="{% static 'sforum/images/img/search-icon.svg' %}" alt="" class="map__search-pic"></button>
+						</form>
+
+					</div>
+					<div class="map__block">
+						<div class="map" id="map"></div>
+					</div>
+				</div>
+			</section>
+			<section class="news" style="background-image: url('static/sforum/images/img/img.png');">
+				<h3 class="page__venues-title"><a href="{% url 'home' %}" class="page__venues_link">Новости</a></h3>
+				<div class="news__container">
+					{% for n in news %}
+					<div class="new">
+						{% if n.company_name.profile.id %}
+						<div class="new__author">
+							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">
+							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username|truncatechars:30  }}</a>
+						{% endif %}
+						</div>
+						{% if n.photo %}
+						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>
+						{% endif %}
+						<div class="new__info-container">
+							<div class="new__date">{{ n.date }}</div>
+							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title|truncatechars:18 }}</a></div>
+
+							<div class="new__content">
+								{{ n.content|truncatechars:80 }}
+							</div>
+							<div class="new__data">
+
+
+							</div>
+<!--							<ul class="action__menu">-->
+<!--								{% if user.id == n.company_name.id %}-->
+<!--								<li class="action__item purple_bc"><a href="{% url 'update_new' n.slug %}" class="action__link white_c">Редактировать</a></li>-->
+<!--								<li class="action__item purple_bc"><a href="{% url 'delete_new' n.slug %}" class="action__link white_c">Удалить</a></li>-->
+<!--								{% endif %}-->
+<!--							</ul>-->
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</section>
+		</div>
+	</div>
+</main>
+{% endblock %}
