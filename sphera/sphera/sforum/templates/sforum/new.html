@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<title>Sphera</title>
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet"  href="css/style.css">
+	<meta name="viewport" content="width=device-width">
+	<link rel="shortcut icon" href="img/favicon sphera.ico">
+</head>
+<body>
+{% block mainmenu %}
+	<div class="wrapper">
+		<header class="header">
+			<div class="container">
+				<div class="header__container">
+					<a href="{% url 'home' %}" class="header__logo">Sf<span class ='e'>e</span>ra</a>
+					<div class="header__menu">
+						<ul class="menu__list">
+                            {% for m in menu %}
+							<li class="menu__item purple-td">
+								<a href="{% url m.url_name %}" class="menu__link">{{ m.title }}</a>
+							</li>
+							<li class="menu__item purple-td">
+								<a href="" class="menu__link">Добавить</a>
+								<ul class="menu__sublist">
+									<li class="menu__subitem">
+										<a href="" class="menu__sublink">Пост</a>
+									</li>
+									<li class="menu__subitem">
+										<a href="" class="menu__sublink">Заведение</a>
+									</li>
+								</ul>
+							</li>
+                            {% endfor %}
+						</ul>
+						<div class="header__profile-data purple-td">
+                        {% if request.user.is_authenticated %}
+						    {% if request.user.profile.id %}
+							<a href="{% url 'profile' user.profile.id %}" class="header__profile-link">{{ user.username }}</a>
+                            {% else %}
+                            <a href="{% url 'create_profile' %}" class="header__profile-link">{{ user.username }}</a>
+                            {% endif %}
+                        {% else %}
+                        <a href="{% url 'login' %}" class="header__profile-link">Войти</a>
+                        {% endif %}
+						</div>
+
+					</div>
+
+					<div class="burger">
+						<span class='burger__span'></span>
+					</div>
+
+				</div>
+			</div>
+		</header>
+{% block content %}
+
+{% endblock %}
+        <footer class="footer">
+			<div class="container">
+				<div class="footer__container">
+					<div class="footer__logo">
+						<a href="" class="header__logo">Sf<span class ='e'>e</span>ra</a>
+						<span class="frameee">Powered by Frameee</span>
+				    </div>
+
+					<div class="footer__menu">
+						<ul class="footer__list">
+							<li class="footer__item"><a href="" class="footer__link purple">Регистрация</a></li>
+							<li class="footer__item"><a href="" class="footer__link purple">Войти</a></li>
+							<li class="footer__item"><a href="" class="footer__link purple">На карте</a></li>
+						</ul>
+						<ul class="footer__list">
+							<li class="footer__item"><a href="" class="footer__link purple">Фото</a></li>
+							<li class="footer__item"><a href="" class="footer__link purple">Контакты</a></li>
+							<li class="footer__item"><a href="" class="footer__link purple">Главная</a></li>
+						</ul>
+						<ul class="footer__list">
+							<li class="footer__item"><a href="" class="footer__link purple">Соглашение</a></li>
+							<li class="footer__item"><a href="" class="footer__link purple">Cookies</a></li>
+							<li class="footer__item"><a href="" class="footer__link purple">Информация</a></li>
+						</ul>
+					</div>
+					<div class="footer__menu_phone">
+						<ul class="footer__list">
+							<li class="footer__item"><a href="" class="footer__link purple">Соглашение</a></li>
+							<li class="footer__item"><a href="" class="footer__link purple">Информация</a></li>
+							<li class="footer__item"><a href="" class="footer__link purple">Регистрация</a></li>
+						</ul>
+					</div>
+					<div class="footer__data-icons">
+						<div class="registration__block">
+							<a href="" class="registration__link">Вход</a>
+						</div>
+
+
+						<ul class="icons-list">
+							<li class="icons__item"><a href="" class="icons__link"><img src="img/instagram-pic.svg" alt="" class="icons__pic"></a></li>
+							<li class="icons__item"><a href="" class="icons__link"><img src="img/youtube-pic.svg" alt="" class="icons__pic"></a></li>
+							<li class="icons__item"><a href="" class="icons__link"><img src="img/vk-pic.svg" alt="" class="icons__pic"></a></li>
+							<li class="icons__item"><a href="" class="icons__link"><img src="img/telegram-pic.svg" alt="" class="icons__pic"></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+	</div>
+	<script src="https://api-maps.yandex.ru/2.1/?apikey=180f2065-90cc-4444-8777-d461d5f1ac8f&lang=ru_RU" type="text/javascript"></script>
+	<script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+	<script src="{% static 'sforum/js/script.js' %}" type=""></script>
+	<script src="{% static 'sforum/js/main.js' %}" type=""></script>
+{% endblock mainmenu %}
+</body>
+
+</html>

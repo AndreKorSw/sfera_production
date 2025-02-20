@@ -1,0 +1,30 @@
+
+{% extends "sforum/base.html" %}
+{% block form2 %}
+{% endblock form2 %}
+{% block content %}
+<main class="main">
+	<div class="container">
+<div class="container5">
+          <form class="form-container" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>{{ form.non_field_errors }}</div>
+            <h2 class="form-title">ВЫ УВЕРЕНЫ ЧТО ХОТИТЕ УДАЛИТЬ ПРОФИЛЬ?</h2>
+            {% for f in form %}
+              <div class="form-group">
+                <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+                <div>{{ f }}</div>
+                <div>{{ f.errors }}</div>
+              </div>
+            {% endfor %}
+              {% if user.profile.id %}
+            <button class="form-button" type="submit">Удалить</button>
+              {% else %}
+            <a  href="{% url 'create_profile' %}" class="form-button">Удалить</a>
+            {% endif %}
+          </form>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

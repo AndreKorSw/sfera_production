@@ -1,0 +1,151 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% load sforum_tags %}
+
+{% block content %}
+<main class="main">
+	<div class="container">
+		<h1 class="sp-title">НОВОСТИ</h1>
+        <section class="news">
+  <div class="card-wrapper">
+    <div class="card-grid">
+		{% for n in news %}
+		{% if not n.company_name|has_group:"Пользователь" %}
+      <div class="card">
+		  <a href="{{ n.get_absolute_url }}" ><img src="{{ n.photo.url }}" alt=""></a>
+        <div class="card-content">
+			<a href="{{ n.get_absolute_url }}" class="new__photo-link"><div class="card-title">{{ n.title }}</div></a>
+			{% if n.company_name.profile.id %}
+          <a href="{% url 'profile' n.company_name.profile.id %}"><div class="card-author">Автор: {{ n.company_name.username }}</div></a>
+          {% endif %}
+			<div class="card-text">{{ n.content|truncatechars:40 }}</div>
+            <div class="card-footer">
+
+
+                <!-- Иконки лайков и комментариев -->
+                <div class="card-icons">
+					<form action="{% url 'like_post' n.slug %}" method="POST">
+                  {% csrf_token %}
+
+                  {% if user.is_authenticated %}
+                    {% if liked %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ n.total_likes }}</span>
+						<button type="submit" name="post_id" value="{{ n.id }}" style="background: transparent; border: none; cursor: pointer;"><a href="#"><i class="fas fa-thumbs-up"></i></a></button>
+					</div>
+					{% else %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ n.total_likes }}</span>
+                    <button type="submit" name="post_id" value="{{ n.id }}" style="background: transparent; border: none; cursor: pointer;"><a href="#"><i class="fas fa-thumbs-up"></i></a></button></div>
+					{% endif %}
+				  {% else %}
+					<div class="card-icons-block" style = "" ><span class="card-icons-span" style="">{{ n.total_likes }}</span>
+                    <a href="{% url 'login' %}"><i class="fas fa-thumbs-up"></i></a></div>
+				  {% endif %}
+					</form>
+				  {% if user.is_authenticated %}
+					<div class="card-icons-block"><span class="card-icons-span" >{{ n.news_comments.total_comments }}</span>
+                    <a href="/add_news_comment/{{ n.pk }}"><i class="fas fa-comment-dots"></i></a></div>
+				  {% else %}
+					<div class="card-icons-block"><span class="card-icons-span" >{{ n.news_comments.total_comments }}</span>
+                    <a href="{% url 'login' %}"><i class="fas fa-comment-dots"></i></a></div>
+				  {% endif %}
+
+
+                </div>
+
+                <!-- Блок с кнопкой "Поделиться" -->
+                <div class="card-share">
+                    <div class="share-button" onclick="shareContent('{{ n.get_absolute_url }}')">
+                        <span>Поделиться</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+        {% if n.news_comments.exists %}
+		<div class="comments">
+
+						<a href="{{ n.get_absolute_url }}" class = "comments-title"> Про {{ n.title }}</a>
+						{% for comment in n.news_comments.all|slice:":4" %}
+							<div class="comment">
+
+								{% if comment.comment_author.profile.profile_pic %}
+								{% if comment.comment_author.profile.profile_options == "FOR_LIFE" %}
+							 	<a href = "{% url 'profile' comment.comment_author.profile.id %}"  class="comment-author"><img class="comment-avatar" src="{{ comment.comment_author.profile.profile_pic.url }}" style = "border: 3px solid #c2fe51;" alt="" ></a>
+                                {% elif comment.comment_author.profile.profile_options == "FIRE_FUN" %}
+								<a href = "{% url 'profile' comment.comment_author.profile.id %}"  class="comment-author"><img class="comment-avatar" src="{{ comment.comment_author.profile.profile_pic.url }}" style = "border: 3px solid #e451fe;" alt="" ></a>
+								{% else %}
+								<a href = "{% url 'profile' comment.comment_author.profile.id %}" class="comment-author"><img class="comment-avatar" src="{{ comment.comment_author.profile.profile_pic.url }}" alt="" ></a>
+								{% endif %}
+								{% else %}
+								{% if comment.comment_author.profile.profile_options == "FOR_LIFE" %}
+                                <a href = "{% url 'profile' comment.comment_author.profile.id %}"   class="comment-author"> <img class="comment-avatar" src="{% static 'sforum/images/img/img_28.png' %}" style = "border: 3px solid #c2fe51;" alt="" ></a>
+                                {% elif comment.comment_author.profile.profile_options == "FIRE_FUN" %}
+								<a href = "{% url 'profile' comment.comment_author.profile.id %}"  class="comment-author"> <img class="comment-avatar" src="{% static 'sforum/images/img/img_28.png' %}" style = "border: 3px solid #e451fe;" alt="" ></a>
+								{% else %}
+								<a href = "{% url 'profile' comment.comment_author.profile.id %}" class="comment-author"> <img class="comment-avatar" src="{% static 'sforum/images/img/img_28.png' %}" alt="" ></a>
+								{% endif %}
+								{% endif %}
+								<div class="comment-content">
+									<div class="comment-header">
+										<a href = "{% url 'profile' comment.comment_author.profile.id %}" class="comment-author">{{ comment.comment_author.username }}</a>
+										<time class="comment-time">{{ comment.date_added|date:"d/m/y в H:i" }}</time>
+									</div>
+									<p class="comment-text">{{ comment.body|truncatechars:40  }}</p>
+								</div>
+							</div>
+						{% endfor %}
+
+					</div>
+		{% endif %}
+		{% endif %}
+		{% endfor %}
+
+  </div>
+
+
+<!--					<div class="news__container">-->
+<!--						{% for n in news %}-->
+<!--						<div class="new">-->
+<!--						{% if n.company_name.profile.id %}-->
+<!--						<div class="new__author">-->
+<!--							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">-->
+<!--							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username }}</a>-->
+<!--						{% endif %}-->
+
+<!--						</div>-->
+<!--						{% if n.photo %}-->
+<!--						<div class="new__photo"><a href="{{ n.get_absolute_url }}" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>-->
+<!--						{% endif %}-->
+<!--						<div class="new__info-container">-->
+<!--							<div class="new__title"><a href="{{ n.get_absolute_url }}" class="new__title-link">{{ n.title }}</a></div>-->
+<!--&lt;!&ndash;							<div class="address__block">{{ n.address }}</div>&ndash;&gt;-->
+
+
+
+<!--&lt;!&ndash;							<div class="new__data">&ndash;&gt;-->
+<!--&lt;!&ndash;								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg' %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>&ndash;&gt;-->
+<!--&lt;!&ndash;							</div>&ndash;&gt;-->
+<!--						</div>-->
+<!--&lt;!&ndash;						<ul class="action__menu">&ndash;&gt;-->
+<!--&lt;!&ndash;							{% if user.id == n.company_name.id %}&ndash;&gt;-->
+<!--&lt;!&ndash;							<li class="action__item purple_bc"><a href="{% url 'update_post' n.slug %}" class="action__link white_c">Редактировать</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;							<li class="action__item purple_bc"><a href="{% url 'delete_post' n.slug %}" class="action__link white_c">Удалить</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;							{% endif %}&ndash;&gt;-->
+<!--&lt;!&ndash;						</ul>&ndash;&gt;-->
+<!--					</div>-->
+<!--&lt;!&ndash;							<ul class="action__menu">&ndash;&gt;-->
+<!--&lt;!&ndash;								{% if user.id == n.company_name.id %}&ndash;&gt;-->
+<!--&lt;!&ndash;								<li class="action__item purple_bc"><a href="{% url 'update_new' n.slug %}" class="action__link white_c">Редактировать</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;								<li class="action__item purple_bc"><a href="{% url 'delete_new' n.slug %}" class="action__link white_c">Удалить</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;								{% endif %}&ndash;&gt;-->
+<!--&lt;!&ndash;							</ul>&ndash;&gt;-->
+
+<!--					{% endfor %}-->
+<!--				</div>-->
+
+  </div></div>
+			</section>
+    </div>
+</main>
+
+{% endblock %}

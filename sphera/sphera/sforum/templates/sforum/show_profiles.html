@@ -1,0 +1,187 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% load sforum_tags %}
+
+{% block content %}
+<main class="main">
+    <div class="container">
+        <h1 class="sp-title">ПОЛЬЗОВАТЕЛИ И КОМПАНИИ</h1>
+    <style>
+        .container7 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .list {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .list h2 {
+            text-align: center;
+        }
+        .user-list h2 {
+            color: #e451fe;
+        }
+        .company-list h2 {
+            color: #1c111e;
+        }
+        .list-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .user-list .list-item:hover {
+            background: #e451fe;
+            color: white;
+        }
+        .company-list .list-item:hover {
+            background: #1c111e;
+            color: white;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .toggle-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            margin-top: 10px;
+            background: #e451fe;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .company-list .toggle-button {
+            background: #1c111e;
+        }
+        .toggle-button:hover {
+            opacity: 0.8;
+        }
+        .list-content {
+            max-height: 220px;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .collapsed {
+            max-height: none !important;
+        }
+        @media (max-width: 768px) {
+            .container7 {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <div class="container7">
+        <div class="list user-list">
+            <h2>Пользователи</h2>
+            <div class="list-content" id="user-list">
+               {% for user_profile in user_profiles %}
+                <a href="{% url 'profile' user_profile.id %}" class="list-item">
+                    {% if user_profile.profile_options == "FOR_LIFE" %}
+                    <div class="avatar" style = "border: 4px solid #c2fe51;">
+                        {% if user_profile.profile_pic %}
+                        <img src="{{ user_profile.profile_pic.url }}" alt="Аватар">
+                        {% else %}
+                        <img src="{% static 'sforum/images/img/img_28.png' %}" alt="Аватар">
+                        {% endif %}
+                    </div>
+                    {% elif user_profile.profile_options == "FIRE_FUN" %}
+                    <div class="avatar" style = "border: 4px solid #e451fe;">
+                        {% if user_profile.profile_pic %}
+                        <img src="{{ user_profile.profile_pic.url }}" alt="Аватар">
+                        {% else %}
+                        <img src="{% static 'sforum/images/img/img_28.png' %}" alt="Аватар">
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <div class="avatar">
+                        {% if user_profile.profile_pic %}
+                        <img src="{{ user_profile.profile_pic.url }}" alt="Аватар">
+                        {% else %}
+                        <img src="{% static 'sforum/images/img/img_28.png' %}" alt="Аватар">
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {{ user_profile.user.username }}
+                </a>
+               {% endfor %}
+            </div>
+            <div class="toggle-button" onclick="toggleList('user-list', this)">Показать больше</div>
+        </div>
+        <div class="list company-list">
+            <h2>Компании</h2>
+            <div class="list-content" id="company-list">
+                {% for company_profile in company_profiles %}
+                <a href="{% url 'profile' company_profile.id %}" class="list-item">
+                     {% if company_profile.profile_options == "FOR_LIFE" %}
+                    <div class="avatar" style = "border: 4px solid #c2fe51;">
+                        {% if company_profile.profile_pic %}
+                        <img src="{{ company_profile.profile_pic.url }}" alt="Аватар">
+                        {% else %}
+                        <img src="{% static 'sforum/images/img/img_28.png' %}" alt="Аватар">
+                        {% endif %}
+                    </div>
+                    {% elif company_profile.profile_options == "FIRE_FUN" %}
+                    <div class="avatar" style = "border: 4px solid #e451fe;">
+                        {% if company_profile.profile_pic %}
+                        <img src="{{ company_profile.profile_pic.url }}" alt="Аватар">
+                        {% else %}
+                        <img src="{% static 'sforum/images/img/img_28.png' %}" alt="Аватар">
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <div class="avatar">
+                        {% if company_profile.profile_pic %}
+                        <img src="{{ company_profile.profile_pic.url }}" alt="Аватар">
+                        {% else %}
+                        <img src="{% static 'sforum/images/img/img_28.png' %}" alt="Аватар">
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {{ company_profile.user.username }}
+                </a>
+                {% endfor %}
+            </div>
+            <div class="toggle-button" onclick="toggleList('company-list', this)">Показать больше</div>
+        </div>
+    </div>
+
+    <script>
+        function toggleList(id, button) {
+            const list = document.getElementById(id);
+            if (list.classList.contains("collapsed")) {
+                list.classList.remove("collapsed");
+                list.style.maxHeight = "220px";
+                button.textContent = "Показать больше";
+            } else {
+                list.classList.add("collapsed");
+                list.style.maxHeight = list.scrollHeight + "px";
+                button.textContent = "Скрыть";
+            }
+        }
+    </script>
+</main>
+{% endblock %}

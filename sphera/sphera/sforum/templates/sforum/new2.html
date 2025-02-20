@@ -1,0 +1,77 @@
+
+{% extends "sforum/base.html" %}
+{% load static %}
+
+{% block content %}
+<main class="main">
+	<div class="container">
+		<div class="main__container">
+			<section class="map1">
+				<div class="map__container">
+					<div class="map__search">
+						<input type="text" placeholder="ПОИСК ЗАВЕДЕНИЙ РЯДОМ С ВАМИ" class="map__search-input">
+						<span class="map__search-icon"><img width='26' height = '26' src="img/search-icon.svg" alt="" class="map__search-pic"></span>
+					</div>
+					<div class="map__block">
+						<div class="map" id="map"><iframe class="width_map" src="https://yandex.ru/map-widget/v1/?um=constructor%3A03700bd564122a0b0da5a322260128baeb999aa1effd1f02cb4afd167ab6603b&amp;source=constructor" width="500" height="400" frameborder="0"></iframe></div>
+					</div>
+				</div>
+			</section>
+			<section class="news">
+				<div class="news__container">
+					{% for n in news %}
+					<div class="new">
+						{% if n.company_name.profile.id %}
+						<div class="new__author">
+							<img width='40' height='40' src="{% static 'sforum/images/img/avatar-pic.svg' %}" alt="" class="new__author-pic">
+							<a href="{% url 'profile' n.company_name.profile.id %}" class="new__author-link">{{ n.company_name.username }}</a>
+						{% endif %}
+							<div>
+								<a href="#" class="more__info">
+									<img src="img/learn-more-pic.svg" alt="" class="more__info-pic">
+								</a>
+								<ul class="action__menu">
+									{% if user.id == n.company_name.id %}
+									<li class="action__item"><a href="{% url 'update_new' n.slug %}" class="action__link">Редактировать</a></li>
+									<li class="action__item"><a href="{% url 'delete_new' n.slug %}" class="action__link">Удалить</a></li>
+									{% endif %}
+								</ul>
+							</div>
+						</div>
+						{% if n.photo %}
+						<div class="new__photo"><a href="" class="new__photo-link"><img src="{{ n.photo.url }}" alt=""  class="new__photo-pic"></a></div>
+						{% endif %}
+						<div class="new__info-container">
+							<div class="new__date">27 августа</div>
+							<div class="new__title"><a href="{{ n.get_absolute_url }}">{{ n.title }}</a></div>
+
+							<span class="new__category">{{ n.cat }}</span>
+							<div class="new__content">{
+								{ n.content }}
+							</div>
+							<div class="new__data">
+								<form action="{% url 'like_post' n.slug %}" method="POST">
+									{% csrf_token %}
+
+									{% if user.is_authenticated %}
+										{% if liked %}
+											<button type="submit" name="post_id" value="{{ n.id }}"><img src="{% static 'sforum/images/img/liked.svg' %}" alt="" class="new__icon-pic"></button><span class="data__quantity">{{ n.total_likes }}</span>
+										{% else %}
+											<button type="submit" name="post_id" value="{{ n.id }}"><img src="{% static 'sforum/images/img/liked.svg' %}" alt="" class="new__icon-pic"></button><span class="data__quantity">{{ n.total_likes }}</span>
+										{% endif %}
+									{% else %}
+										<img src="{% static 'sforum/images/img/liked.svg' %}" alt="" class="new__icon-pic"><span class="data__quantity">{{ n.total_likes }}</span>
+									{% endif %}
+								</form>
+								<a href="" class="new__views"><img src="{% static 'sforum/images/img/views.svg %}" alt="" class="new__icon-pic"></a><span class="data__quantity">422</span>
+								<a href="" class="new__favs"></a>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</section>
+		</div>
+	</div>
+</main>
+{% endblock %}

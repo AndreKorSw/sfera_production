@@ -1,0 +1,49 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% block form2 %}
+{% endblock form2 %}
+{% block content %}
+<main class="main">
+	<div class="container">
+		<h1 class="sp-title">ИЗБРАННОЕ</h1>
+		<div class="news__container">
+
+				{% if favs %}
+				{% for n in favs %}
+				<div class="container2">
+        <div class="venues2">
+            <div class="venue2">
+				<a href="{{ n.get_absolute_url }}" ><img src="{{ n.photo.url }}" alt=""></a>
+                <div class="venue-content">
+					<a href="{{ n.get_absolute_url }}" ><div class="venue-title">{{ n.title }}</div></a>
+                    <div class="venue-location">{{ n.metro }}</div>
+                    <div class="venue-type">{{ n.cat }}</div>
+                </div>
+            </div>
+
+
+        </div></div>
+			{% endfor %}
+			{% else %}
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<div class=""><a href="{% url 'home' %}" class="page__venues_link">Пусто :(</a></div>
+			{% endif %}
+
+
+
+<!--				<h2 class="article__title"><a href="" class="article__title-link"></a></h2>-->
+
+<!--				<div class="article__categoies">-->
+<!--					<span class="article__category"><a href="" class="article__category-link"></a></span>-->
+
+<!--				</div>-->
+
+			</div>
+	</div>
+</main>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "sforum/base.html" %}
+{% load static %}
+{% load sforum_tags %}
+
+{% block content %}
+<main class="main">
+
+<section class="events">
+			<div class="container">
+				<div class="main__container">
+					<h1 class="sp-title">EVENTS IN MSK</h1>
+
+					<ul class="big-banner__menu">
+						 <div class="slider-container">
+    <div class="slider-wrapper">
+		{% for event in events %}
+      <div class="card1">
+        <img src="{{ event.photo.url }}" alt="Изображение 1">
+        <h2>{{ event.title }}</h2>
+        <p>{{ event.content }}</p>
+          <div class="city-buttons">
+              <button>Москва</button>
+
+          </div>
+      </div>
+		{% endfor %}
+    </div>
+
+    <button class="slider-button slider-button-prev">&#10094;</button>
+    <button class="slider-button slider-button-next">&#10095;</button>
+  </div>
+
+    <button class="slider-button slider-button-prev">&#10094;</button>
+    <button class="slider-button slider-button-next">&#10095;</button>
+  </div>
+							{% for n in events %}
+							<li class="big-banner__menu-item">
+								<div class="big-banner__menu-photo"><img width = '120px' height="80px" src="{{ n.photo.url }}" alt="" class="big-banner__menu-pic"></div>
+								<div class="big-banner__menu-data">
+									<div class="big-banner__menu-time">{{ n.time_created }}</div>
+									<div class="big-banner__menu-title"><a href="{{ n.get_absolute_url }}">{{ n.title }}</a></div>
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+				</div>
+			</div>
+
+		</section>
+</main>
+<script src="{% static 'sforum/js/script4.js' %}" type=""></script>
+
+{% endblock %}
