@@ -11,11 +11,11 @@ SECRET_KEY = ''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sphera',
-        'USER': 'userdb',
-        'PASSWORD': '123456',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '',
 
     }
 }
