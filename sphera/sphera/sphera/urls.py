@@ -21,7 +21,7 @@ from sphera import settings
 from django.conf.urls.static import static
 from django.contrib.auth import urls
 urlpatterns = [
-    path('swdjadmin/', admin.site.urls),
+    path('', admin.site.urls),
     path('', include("sforum.urls")),
     path('', include('django.contrib.auth.urls')),
 #     path('auth/', include('djoser.urls')),
