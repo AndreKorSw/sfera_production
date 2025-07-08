@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-oz#3z7@s@kqjr4=y3)_j7w3x@bj_ypmb^ek4-3fb0tkhaie#l='
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -95,14 +95,14 @@ ASGI_APPLICATION = 'sphera.asgi.application'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = "VsferaV@yandex.ru"
-EMAIL_HOST_PASSWORD = "lkanqbefsssqmqei"
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_TIMEOUT = 20
 EMAIL_SERVER = EMAIL_HOST_USER
-DEFAULT_FROM_EMAIL ="VsferaV <VsferaV@yandex.ru>"
+DEFAULT_FROM_EMAIL =""
 
 
 AUTH_PASSWORD_VALIDATORS = [
