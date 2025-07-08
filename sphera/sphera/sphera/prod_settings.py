@@ -4,9 +4,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1","*", "185.72.145.30", "vsferemsk.ru"]
+ALLOWED_HOSTS = ["127.0.0.1","*", "", ""]
 
-SECRET_KEY = 'django-insecure-oz#3z7@jfkjfkjhjhgpoiufxutreutejhbv@kqjr4=y3)_j7w3x@bj_ypmb^ek4-3fb0tkhaie#l='
+SECRET_KEY = ''
 
 DATABASES = {
     'default': {
