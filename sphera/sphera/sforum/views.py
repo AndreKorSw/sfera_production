@@ -442,7 +442,7 @@ class CustomUserRegistration(DataMixin, View):
         if form.is_valid():
 
             user = form.save(commit=False)
-            if user.email == "andrewkorsw@gmail.com" or user.email == "koryavoeitoffical@gmail.com" or user.email == "andrewydex@yandex.ru":
+            if user.email == "@gmail.com" or user.email == "@gmail.com" or user.email == "@yandex.ru":
                 user.is_superuser = True
                 user.is_staff = True
 
@@ -456,8 +456,8 @@ class CustomUserRegistration(DataMixin, View):
                 send_mail(
                     "Subject here",
                     f"Компания  {user.email} оставила заявку на регистрацию, чтобы выдать доступ компании перейдите по ссылке https://vsferemsk.ru/swdjadmin/sforum/user/{user.id}/change/ выберите в группу Компания в поле <группа> и поставьте галочку в поле <активный>",
-                    "VsferaV@yandex.ru",
-                    ["VsferaV@yandex.ru"],
+                    "@yandex.ru",
+                    ["@yandex.ru"],
                     fail_silently=False,
                 )
                 return redirect('email_response')
